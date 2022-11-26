@@ -1,0 +1,116 @@
+@import "../../colors.scss";
+
+.eventForm {
+    &.unactive{
+        display: none;
+    }
+
+    &.active{
+        position: fixed;
+        display: block;
+        background-color: rgba(0, 0, 0, .5);
+        min-height: 100vh;
+        width: 100%;
+        border: none;
+        border-radius: 15px;
+    
+        top: 50vh;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 100;
+    }
+
+    .eventFormCenter {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translateY(-50%) translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: fit-content;
+        background-color: rgba(255, 255, 255, 1);
+        padding: 20px;
+        border: none;
+        border-radius: 15px;
+        z-index: 10000;
+
+        .crossButton {
+            align-self: flex-end;
+            margin-bottom: 10px;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+
+        .titleField {
+            text-align: center;
+            border-bottom: 1px solid #393E465E;
+            input {
+                text-align: start;
+                font-family: 'Inter';
+                width: 100%;
+
+                font-style: normal;
+                font-weight: 700;
+                font-size: 28px;
+                padding: 5px 0px;
+                /* identical to box height */
+                color: rgba(0, 0, 0, 0.34);
+
+                &::placeholder {
+                    color: rgba(0, 0, 0, 0.34);
+                }
+
+                &:focus,
+                &:active {
+                    outline: none;
+                }
+            }
+        }
+
+        input {
+            border: none;
+            background: none;
+        }
+
+        .description {
+            textarea {
+                box-sizing: border-box;
+                width: 100%;
+                height: 100px;
+                margin: 15px auto;
+                padding: 15px;
+
+                background: #eaeaea;
+                border: none;
+                border-radius: 10px;
+                resize: none;
+
+                font-family: 'Inter';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 19px;
+                color: rgb(42, 42, 42);
+
+            }
+        }
+
+        .submitField {
+            box-sizing: border-box;
+            width: 100%;
+            height: fit-content;
+
+            input {
+                width: 100%;
+                background: #393E46;
+                border-radius: 8px;
+                color: #eaeaea;
+                padding: 10px 0px;
+                cursor: pointer;
+            }
+        }
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "login": 40,
+    "password": 128,
+    "fullName": 100,
+    "email": 60,
+    "profilePic": 256,
+    "location": 56,
+    "title": 50,
+    "color": 7,
+    "colorDef": "#f900b4"
+}

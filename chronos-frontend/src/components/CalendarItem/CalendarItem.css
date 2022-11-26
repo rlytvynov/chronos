@@ -1,0 +1,120 @@
+@import "../../colors.scss";
+
+* {
+    font-family: 'Inter';
+    font-weight: 700;
+
+}
+
+.calendar-item {
+    max-width: 1170px;
+    margin: 10vh auto;
+}
+
+.fc-scrollgrid {
+    border: 1px solid #393E46 !important;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.1)) !important;
+    border-radius: 30px !important;
+    overflow: hidden !important;
+    margin-bottom: 10px;
+}
+
+.fc-prev-button, 
+.fc-next-button {
+    width: 46px !important;
+    height: 46px !important;
+    border: 1px solid #393E46 !important;
+    border-radius: 50% !important;
+    background: white !important;
+    color: #393E46 !important;
+    text-align: center !important;
+}
+.fc-prev-button:hover, 
+.fc-next-button:hover {
+    background: #393E46 !important;
+    color: white !important;
+}
+
+.fc-toolbar-chunk {
+    display: flex !important;
+    align-items: center !important;
+}
+.fc-toolbar-chunk h2 {
+    display: inline-block;
+}
+
+.fc-button-group {
+    border: 1px solid #393E46 !important;
+    background-color: white !important;
+    color: #393E46 !important;
+    border-radius: 9px !important;
+}
+.fc-dayGridMonth-button,
+.fc-timeGridWeek-button,
+.fc-timeGridDay-button {
+    color: #393E46 !important;
+    background: white !important;
+    border: none !important;
+    border-radius: 8px !important;
+    margin: 0 !important;
+}
+.fc-toolbar-title {
+    font-size: 1.75em !important;
+}
+@media only screen and (max-width: 400px) {
+        
+    .fc-toolbar-title {
+        font-size: 1.0em !important;
+        width: 60px;
+        margin: 0px 40px 0px 20px !important;
+        text-align: center;
+    }
+}
+
+.fc-button-active {
+    color: white !important;
+    background: #393E46 !important;
+    border-radius: 8px !important;
+}
+
+.fc-button-group {
+    flex-wrap: wrap !important;
+}
+
+
+.callendarButtons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.callendarButtons button {
+    width: 100%;
+    padding: 10px 15px;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+}
+
+.callendarButtons button.deleteCalendar {
+    background-color: rgb(255, 33, 77);
+    border: 1px solid rgb(255, 33, 77);
+    border-radius: 10px;
+}
+
+.callendarButtons button.deleteCalendar:hover {
+    background-color: rgb(159, 15, 44);
+    border: 1px solid rgb(159, 15, 44);
+}
+
+.callendarButtons button.addUser {
+    background-color: black;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.callendarButtons button.addUser:hover {
+    background-color: white;
+    border: 2px solid black;
+    color: black;
+}
+

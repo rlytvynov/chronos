@@ -1,0 +1,345 @@
+@import "../../colors.scss";
+
+.calendarList {
+    max-width: 1170px;
+    margin: 10vh auto;
+
+    .hederBlock {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        h2 {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 40px;
+            line-height: 48px;
+            color: #393E46;
+        }
+        button {
+            width: 100%;
+            font-family: 'Inter';
+            font-weight: 700;
+            color: black;
+            border: 2px solid black;
+            border-radius: 10px;
+            background-color: #FFFFFF;
+
+            border: 2px solid black;
+            padding: 10px 15px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: black;
+                color: white;
+            }
+        }
+    }
+
+    .calendarListInner {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        .allEvents {
+            width: 350px;
+            height: 420px;
+            border: 2px solid #000000;
+            border-radius: 33px;
+            padding: 30px 45px;
+            margin-right: 50px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .sortBlock {
+                width: 100%;
+                margin-bottom: 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                
+                h3 {
+                    margin: 0;
+                    font-family: 'Inter';
+                    font-style: normal;
+                    font-weight: 700;
+                    font-size: 24px;
+                    line-height: 29px;
+                    text-transform: uppercase;
+                    color: #393E46;
+                }
+            }
+
+            .eventScroll {
+                width: 100%;
+                overflow-y: scroll;
+                .eventItem {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    cursor: pointer;
+    
+                    box-sizing: border-box;
+                    width: 100%;
+                    background: #F2E7D5;
+                    border-radius: 8px;
+                    margin-bottom: 10px;
+                    padding-right: 15px;
+                    
+                    -webkit-animation: appear 1.2s; /* Safari, Chrome and Opera > 12.1 */
+                       -moz-animation: appear 1.2s; /* Firefox < 16 */
+                        -ms-animation: appear 1.2s; /* Internet Explorer */
+                         -o-animation: appear 1.2s; /* Opera < 12.1 */
+                            animation: appear 1.2s;
+                
+                    transform: translateZ(0);
+                    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+                    backface-visibility: hidden;
+                    -moz-osx-font-smoothing: grayscale;
+                    transition-duration: 0.3s;
+                    transition-property: transform;
+    
+                    font-family: 'Inter';
+    
+                    font-weight: 400;
+                    font-size: 16px;
+                    line-height: 19px;
+                    color: #393E46;
+    
+                    .eventTitle {
+                        display: flex;
+                        align-items: center;
+                        .eventColor {
+                            border-radius: 6px;
+                            width: 14px;
+                            height: 40px;
+                            margin-right: 10px;
+                        }
+                        .eventName {
+                            padding: 10px 0px;
+                            text-align: center;
+                        }
+                    }
+    
+                    .eventTime {
+                        text-align: center;
+                        font-weight: 700;
+                    }
+    
+                    // .eventColor {
+                    //     border-radius: 6px;
+                    //     width: 14px;
+                    //     height: inherit;
+                    //     margin-right: 10px;
+                    // }
+                    // .eventInfo {
+                    //     display: flex;
+                    //     justify-content: space-between;
+                    //     align-items: center;
+                    //     padding: 10px 0px;
+                    //     border-radius: 0px 6px 6px 0px;
+                    //     color: #000000;
+                    // }
+                }
+                /* Firefox < 16 */
+                
+                .eventItem:hover,
+                .eventItem:focus,
+                .eventItem:active {
+                    transform: scale(0.98);
+                }
+            }
+        }
+
+        .allCalendarsInner {
+            margin: 0 auto;
+            align-items: flex-start;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-column-gap: 1em;
+            grid-row-gap: 1em;
+            margin-bottom: 30px;
+
+            .calendarLink {
+                .calendarItem {
+                    display: grid;
+                    grid-auto-rows: minmax(min-content, max-content);
+                    grid-template-columns: auto 1fr;
+                    
+                    -webkit-animation: appear 1.2s; /* Safari, Chrome and Opera > 12.1 */
+                       -moz-animation: appear 1.2s; /* Firefox < 16 */
+                        -ms-animation: appear 1.2s; /* Internet Explorer */
+                         -o-animation: appear 1.2s; /* Opera < 12.1 */
+                            animation: appear 1.2s;
+                    transform: translateZ(0);
+                    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+                    backface-visibility: hidden;
+                    -moz-osx-font-smoothing: grayscale;
+                    transition-duration: 0.3s;
+                    transition-property: transform;
+
+                    height: 200px;
+                    width: 100%;
+                    border: 2px solid #393E46;
+                    border-radius: 12px;
+
+                    .calendarItemLeftBar {
+                        transform: rotate(180deg);
+                        writing-mode: vertical-lr;
+                        text-align: center;
+                        height: 200px;
+                        padding: 0px 10px 0px 10px;
+
+                        font-family: 'Inter';
+                        font-style: normal;
+                        font-weight: 700;
+                        font-size: 18px;
+                        /* identical to box height */
+                        text-transform: uppercase;
+                        color: #FFFFFF;
+            
+                        background: #393E46;
+                        border-radius: 0px 10px 10px 0px;
+                    }
+
+                    .calendarItemRightBar {
+                        padding: 20px;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+
+                        font-family: 'Inter';
+                        font-weight: 400;
+                        font-size: 16px;
+                        line-height: 19px;
+                        color: #393E46;
+
+                        .calendarEvents {
+                            height: 100px;
+                            overflow-y: scroll;
+
+                            .eventItem {
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                                cursor: pointer;
+                
+                                box-sizing: border-box;
+                                width: 100%;
+                                background: #F2E7D5;
+                                border-radius: 8px;
+                                margin-bottom: 10px;
+                                padding-right: 15px;
+                                
+                                -webkit-animation: appear 1.2s; /* Safari, Chrome and Opera > 12.1 */
+                                   -moz-animation: appear 1.2s; /* Firefox < 16 */
+                                    -ms-animation: appear 1.2s; /* Internet Explorer */
+                                     -o-animation: appear 1.2s; /* Opera < 12.1 */
+                                        animation: appear 1.2s;
+                            
+                                transform: translateZ(0);
+                                box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+                                backface-visibility: hidden;
+                                -moz-osx-font-smoothing: grayscale;
+                                transition-duration: 0.3s;
+                                transition-property: transform;
+                
+                                .eventTitle {
+                                    display: flex;
+                                    align-items: center;
+                                    .eventColor {
+                                        border-radius: 6px;
+                                        width: 14px;
+                                        height: 40px;
+                                        margin-right: 10px;
+                                    }
+                                    .eventName {
+                                        padding: 10px 0px;
+                                        text-align: center;
+                                    }
+                                }
+                
+                                .eventTime {
+                                    text-align: center;
+                                    font-weight: 700;
+                                }
+                
+                            }
+                            
+                            .eventItem:hover,
+                            .eventItem:focus,
+                            .eventItem:active {
+                                transform: scale(0.98);
+                                z-index: 100;
+                            }                        
+                        }
+                    }
+                }
+                /* Firefox < 16 */
+            }
+
+            .calendarLink,
+            .calendarLink:hover{
+                color: black;
+                text-decoration: none;
+            }
+        }
+        margin-bottom: 10px;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+
+    h2 {
+        text-align: center;
+    }
+        
+    .calendarListInner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .allEvents {
+            align-self: center;
+            margin: 0 !important;
+            margin-bottom: 20px !important;
+            width: 280px !important;
+        }
+
+        .allCalendarsInner {
+            grid-template-columns: repeat(1, 1fr) !important;
+            margin: 0px 12px !important;
+            margin-bottom: 20px !important;
+            .calendarItem {
+                align-self: center;
+            }
+        }
+    }
+
+}
+
+@media only screen and (max-width: 380px){
+    .calendarListInner {
+        .allEvents {
+            align-self: center;
+            margin: 0 !important;
+            margin-bottom: 20px !important;
+            width: 200px !important;
+        }
+    }
+
+}
+
+@keyframes appear {
+    0% {
+        opacity: 0;
+        transform: scale(0.5, 0.5);
+      }
+    
+    100% {
+        opacity: 1;
+        transform: scale(1, 1);
+    }
+}

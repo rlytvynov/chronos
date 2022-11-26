@@ -1,0 +1,20 @@
+{
+    "loginToken": {
+        "secret": "SeCrEtFoRtOkEnxmf3ZEle9WoBBnK5vxaI",
+        "sign": {
+            "expiresIn": "1h"
+        }
+    },
+    "mailToken": {
+        "secret": "ro7ro97a7hgpbkGmOQ6p1pOgKjTbUz8DPY",
+        "sign":{
+            "expiresIn": ""
+        }
+    },
+    "passToken": {
+        "secret": "vwn087OyyGYUBOesBTcbZhanUv1dklYoVo",
+        "sign": {
+            "expiresIn": "15m"
+        }
+    }
+}

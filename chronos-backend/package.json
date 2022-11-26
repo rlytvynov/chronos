@@ -1,0 +1,29 @@
+{
+  "name": "chranus",
+  "version": "1.0.0",
+  "description": "eCalendar",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "rlytvynov and  des_dev_xye.coc_interactive team",
+  "license": "ISC",
+  "dependencies": {
+    "@adminjs/fastify": "^3.0.1",
+    "@adminjs/sequelize": "^3.0.0",
+    "@fastify/cookie": "^8.3.0",
+    "@fastify/formbody": "^7.3.0",
+    "@fastify/jwt": "^6.3.2",
+    "@fastify/multipart": "^7.3.0",
+    "@fastify/static": "^6.5.0",
+    "adminjs": "^6.6.3",
+    "crypto": "^1.0.1",
+    "fastify": "^4.9.2",
+    "mysql2": "^2.3.3",
+    "nodemailer": "^6.8.0",
+    "path": "^0.12.7",
+    "sequelize": "^6.25.5",
+    "sequelize-auto": "^0.8.8",
+    "tslib": "^2.4.1"
+  }
+}

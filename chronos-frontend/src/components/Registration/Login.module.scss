@@ -1,0 +1,128 @@
+@import "../../colors.scss";
+
+.loginPage {
+    max-width: 450px;
+    margin: 0 auto;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    border: 2px solid black;
+    border-radius: 28px;
+
+    .formName {
+
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 800;
+        font-size: 36px;
+        /* identical to box height */
+        text-transform: uppercase;
+        color: #F2E7D5;
+        text-align: center;
+        width: 100%;
+        background: #393E46;
+        border-radius: 26px 26px 0px 0px;
+        padding: 20px 0px;
+    }
+
+    form {
+        padding: 70px 60px;
+
+        .emailField,
+        .passwordField,
+        .loginField,
+        .fullNameField {
+            max-width: 320px;
+            margin: 0 auto;
+            text-align: center;
+            border: 2px solid black;
+            border-radius: 10px;
+            padding-left:10px;
+            margin-bottom: 15px;
+            // overflow: hidden;
+            z-index: 3;
+
+            input {
+                width: 280px;
+                padding: 12px 0px 12px 5px;
+                border-radius: 10px;
+                margin-left: 10px;
+                font-family: 'Inter';
+                font-style: normal;
+                font-weight: 300;
+                font-size: 16px;
+                line-height: 19px;
+                color: #9D9D9D;
+
+                border: none;
+
+                &:focus,
+                &:active {
+                    outline: none;
+                }
+            }
+        }
+        .emailField {
+            
+        }
+
+        .logInField {
+            max-width: 320px;
+            margin: 0 auto;
+            margin-top: 30px;
+            text-align: center;
+            border-radius: 10px;
+            overflow: hidden;
+
+            input {
+                width: 100%;
+                padding: 12px 0px;
+
+                font-family: 'Inter';
+                font-style: normal;
+                font-weight: 700;
+                font-size: 16px;
+                line-height: 19px;
+                background-color: #6D9886;
+                color: #F2E7D5;
+                border: none;
+            }
+        }
+
+        .reminders {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 300;
+            font-size: 12px;
+            line-height: 15px;
+            /* identical to box height */
+            color: #848484;
+            margin-top: 10px;
+
+            a {
+                text-decoration: underline;
+                color: #848484;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 400px) {
+        
+    .loginPage {
+        max-width: 300px;
+        margin-top: 10vh;
+
+        form {
+            padding: 70px 30px;
+            .emailField,
+            .passwordField {
+                max-width: 250px;
+    
+                input {
+                    width: 170px;
+                }
+            }
+        }
+    }
+
+}

@@ -1,0 +1,91 @@
+@import "../../colors.scss";
+
+.homePage {
+    max-width: 1000px;
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20vh;
+    .homePageItem {
+        width: 500px;
+        h1 {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 800;
+            font-size: 40px;
+            line-height: 50px;
+            text-transform: uppercase;
+        }
+        p {
+            margin: 15px 0px 25px 0px;
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 24px;
+            line-height: 29px;
+            color: #393E46;
+        }
+
+        img {
+            width: 500px;
+            height: auto;
+        }
+
+        a {
+            padding: 10px 50px;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+            cursor: pointer;
+
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 20px;
+            line-height: 24px;
+        }
+
+        #signUp { 
+            background: #6D9886;
+            border-radius: 9px;
+            color: white;
+        }
+
+        #logIn {
+            color: #6D9886
+        }
+
+        @media only screen and (max-width: 400px) {
+        
+            img {
+                width: 400px;
+                height: auto;
+            } 
+            #signUp { 
+                margin-left: 10%;
+             }
+        
+        }
+        @media only screen and (max-width: 380px) {
+        
+            img {
+                width: 300px;
+                height: auto;
+            } 
+
+            h1 {
+                font-size: 30px;
+                line-height: 40px;
+            }
+
+            a { 
+                padding: 0px 35px;
+                font-size: 10px;
+            }
+        
+        }
+    }
+}

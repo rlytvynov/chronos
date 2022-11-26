@@ -1,0 +1,35 @@
+@import "../../colors.scss";
+
+.pagination {
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.pagination li {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.pagination li.active{
+    background: #393E46;
+}
+
+.pagination li a {
+    text-decoration: none;
+    color: #393E46;
+    font-weight: 700;
+    display: block;
+    padding-top: 2px;
+    height: 30px;
+}
+
+.pagination li.active a {
+    color: white;
+}
+
+.pagination li.disabled a {
+    color: #D9D9D9;
+}

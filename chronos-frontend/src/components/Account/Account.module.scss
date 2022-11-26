@@ -1,0 +1,153 @@
+@import "../../colors.scss";
+
+.accountPage {
+    max-width: 1000px;
+    margin: 10vh auto;
+
+    h2 {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 40px;
+        line-height: 48px;
+        color: #393E46;
+        margin-bottom: 50px;
+    }
+
+    .accountInfo {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        .leftBar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 20%;
+            margin-right: 150px;
+
+            .profilePicture {
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+                overflow: hidden;
+                img {
+                    position: absolute;
+                    width: 150px;
+                    height: 150px;
+                }
+                margin-bottom: 5px;
+            }
+
+            .userName {
+                font-family: 'Inter';
+                font-style: normal;
+                font-weight: 600;
+                font-size: 24px;
+                line-height: 29px;
+                text-align: center;
+                color: #393E46;
+                margin-bottom: 5px;
+            }
+
+            .userLogin {
+                font-family: 'Inter';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 15px;
+                line-height: 8px;
+                text-align: center;
+                color: #393E46;
+                margin-bottom: 20px;
+            }
+
+            button {
+                width: 171px;
+                height: 40px;
+                background-color: #393E46;
+                border: 1px solid #393E46;
+                font-weight: 700;
+                text-transform: uppercase;
+                border-radius: 10px;
+                color: #D9D9D9;
+                display: block;
+                margin-bottom: 5px;
+                cursor: pointer;
+
+                &:last-child {
+                    background-color: transparent;
+                    border: none;
+                    color: #393E46;
+                }
+            }
+        }
+
+        .rightBar {
+            width: 80%;
+            h3 {
+                font-family: 'Inter';
+                font-style: normal;
+                font-weight: 600;
+                font-size: 32px;
+                line-height: 39px;
+                margin: 0px 0px 30px 0px;
+                /* identical to box height */
+                color: #393E46;
+            }
+
+            .eventItem {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                cursor: pointer;
+
+                box-sizing: border-box;
+                width: 100%;
+                background: #F2E7D5;
+                border-radius: 8px;
+                margin-bottom: 10px;
+                padding-right: 15px;
+                
+                -webkit-animation: appear 1.2s; /* Safari, Chrome and Opera > 12.1 */
+                   -moz-animation: appear 1.2s; /* Firefox < 16 */
+                    -ms-animation: appear 1.2s; /* Internet Explorer */
+                     -o-animation: appear 1.2s; /* Opera < 12.1 */
+                        animation: appear 1.2s;
+            
+                transform: translateZ(0);
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+                backface-visibility: hidden;
+                -moz-osx-font-smoothing: grayscale;
+                transition-duration: 0.3s;
+                transition-property: transform;
+
+                font-family: 'Inter';
+
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 19px;
+                color: #393E46;
+
+                .eventTitle {
+                    display: flex;
+                    align-items: center;
+                    .eventColor {
+                        border-radius: 6px;
+                        width: 14px;
+                        height: 40px;
+                        margin-right: 10px;
+                    }
+                    .eventName {
+                        padding: 10px 0px;
+                        text-align: center;
+                    }
+                }
+
+                .eventTime {
+                    text-align: center;
+                    font-weight: 700;
+                }
+            }
+        }
+    }
+}
