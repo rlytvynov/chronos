@@ -41,7 +41,7 @@ module.exports = class Mailer {
         this.transporter.sendMail({
             from: config.from,
             to: email,
-            subject: 'Email confirmation',
+            subject: 'Chronos calendar invitation',
             html: `${login} have invited you to their calendar: ${title} \n \
             Follow the link \
             <a href="http://localhost:${config.PORT}/api/auth/confirmEmail/${token}">\

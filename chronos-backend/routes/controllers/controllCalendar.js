@@ -66,12 +66,12 @@ module.exports = {
         try {
             idChecker(request.params.calendarId, 1023);
             idChecker(request.user.id, 1006);
-            idChecker(request.body.userId, 1006);
-            
+            idChecker(request.params.userId, 1006);
+
             const user = new User(request.db.sequelize.models.users);
-            const pawnInvited = await user.getOne({id: request.body.userId}, true);
+            const pawnInvited = await user.get({id: request.params.userId}, true);
             if (!pawnInvited) throw new CustomError(1014);
-            
+
             const calendarModel = new Calendar(request.db.sequelize.models.calendars);
             const [calendar] = await calendarModel.get(
                 request.db.sequelize.models.users_calendars,
@@ -79,11 +79,12 @@ module.exports = {
                 request.params.calendarId, 
                 true
             );
+
             if(!calendar)
                 throw new CustomError(1023);
             else if(calendar.role == 'user')
                 throw new CustomError(1015);
-            
+
             const users_calendars = new Users_Calendars(request.db.sequelize.models.users_calendars);
             const existingRelation = await users_calendars.getOne({
                 userId: pawnInvited.id,

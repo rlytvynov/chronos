@@ -34,12 +34,11 @@ module.exports = class Calendar extends Entity{
         });
     }
 
-    async set(data, calendarId){
+    async set(data, id){
         this.insertionProtector(data);
 
-        if (calendarId) {
-            const calendar = await super.getOne({id: calendarId});
-            console.log(calendar);
+        if (id) {
+            const calendar = await super.getOne({id: id});
             if (data.title) 
                 calendar.title = data.title;
             if (data.description)

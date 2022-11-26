@@ -64,7 +64,24 @@ async function initAdminModels(sequelizeInstance, serverInstance) {
                     },
                     actions: {
                         edit: {
-                            before: [validateForm]
+                            before: [(reply)=> {
+                                const login = reply.payload.login,
+                                      fullName = reply.payload.fullName,
+                                      email = reply.payload.email;
+                                //
+                                if(!login || login.length < 4)
+                                    ValidationError('login', 4);
+                                else if(!fullName || fullName.length < 4)
+                                    ValidationError('fullName', 4);
+                                try {
+                                    insertionProtector({login, fullName, email});
+                                } catch (error) {
+                                    throw new AdminJS.ValidationError({name: {
+                                        message: error.errText
+                                    }},{message: 'AdminJS: Validation Error!'});
+                                }
+                                return reply;
+                            }]
                         },
                         new: {
                             before: [validateForm]

@@ -46,7 +46,10 @@ module.exports = class UserErrors extends Error {
             case 1016:
                 this.message = 'User is already following this calendar'
                 break;
-            // VVV Unexpected errors (021 - 030) VVV
+            case 1017:
+                this.message = 'Calendar not found!'
+                break;
+            // VVV Unexpected errors (020 - 030) VVV
             case 1021:
                 this.message = 'Unallowed symbols at ' + additionalInfo;
                 break;
@@ -58,6 +61,25 @@ module.exports = class UserErrors extends Error {
                 break;
             case 1024:
                 this.message = 'Invalid token';
+                break;
+            case 1025:
+                this.message = 'Invalid request body';
+                break;
+            // VVV Unexpected errors (031 - 040) VVV
+            case 1031:
+                this.message = 'You have no rights to create events in this calendar'
+                break;
+            case 1032:
+                this.message = 'You have no rights to edit this event'
+                break;
+            case 1033:
+                this.message = 'You have no rights to unlink events in this calendar'
+                break;
+            case 1034:
+                this.message = 'You have no rights to copy events from this calendar'
+                break;
+            case 1035:
+                this.message = 'Only event author can delet it!'
                 break;
             default:
                 this.message = 'Server Errors: undefined error!';

@@ -25,7 +25,7 @@ module.exports = {
                 throw new CustomError(1002);
             else if (pawn.email.startsWith('@@'))
                 throw new CustomError(1003);
-            reply.sendAuthToken(pawn.id, pawn.login, pawn.role);
+            reply.sendAuthToken(pawn.dataValues);
         }catch(error) {
             errorReplier(error, reply);
         }
@@ -52,14 +52,13 @@ module.exports = {
             description: `${pawn.login} default calendar`});
 
             const users_calendars = new Users_Calendars(request.db.sequelize.models.users_calendars);
-            await users_calendars.set({userId: pawn.id,
-            calendarId: calendar.id}, 'master');
+            await users_calendars.set(pawn.id, calendar.id, 'master');
 
             await user.edit({defaultCalendarId: calendar.id}, {id: pawn.id});
             mailer.sendConfirmEmail(request.body.email, request.jwt.sign({
                 email: request.body.email,
                 login: request.body.login
-            }, jwtConfig.mailToken.secret, jwtConfig.mailToken.sign));
+            }, {expiresIn: jwtConfig.mailToken.expiresIn}));
 
             reply.status(204).send();
         } catch (error) {
@@ -93,7 +92,7 @@ module.exports = {
             mailer.sendPasswordReset(pawn.email, request.jwt.sign({
                 newPassword: hashPassword(request.body.newPassword),
                 login: request.user.login
-            }, jwtConfig.passToken.secret, jwtConfig.passToken.sign));
+            }, {expiresIn: jwtConfig.passToken.expiresIn}));
 
             reply.status(204).send();    
         } catch (error) {
@@ -133,5 +132,84 @@ module.exports = {
         } catch (error) {
             errorReplier(error, reply);
         }
-    }
+    },
+
+    authMe : async(request, reply) => {
+        try {
+            const user = new User(request.db.sequelize.models.users);
+            const pawn = await user.get({id: request.user.id}, true);
+            if (!pawn) 
+                return reply.status(406).send({ message: 'Unauthorized' });
+            return reply.status(200).send({
+                id: pawn.id,
+                login: pawn.login,
+                fullName: pawn.fullName,
+                email: pawn.email,
+                profilePic: pawn.profilePic,
+                location: pawn.location,
+                defaultCalendarId: pawn.defaultCalendarId
+            });
+        } catch (error) {
+            return reply.status(500).send({msg: error.message});
+        }
+    },
+
+    me: async function (req, res) {
+        try {
+            if(req.user) {
+                const user = await User.findOne({where: {id: req.user.id}})
+                if (user) {
+                    return res.status(200).json({
+                        id: user.id,
+                        login: user.login,
+                        profilePicture: user.profilePicture,
+                        fullName: user.fullName,
+                        rating: user.rating,
+                        role: user.role,
+                    })
+                } else {
+                    return res.status(406).json({ message: 'Unauthorized' });
+                }
+            } else {
+                if (req.cookies?.refreshToken) {
+                    console.log('hello')// Destructuring refreshToken from cookie
+                    const refreshToken = req.cookies.refreshToken;
+            
+                    // Verifying refresh token
+                    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, 
+                    (err, user) => {
+                        if (err) {
+            
+                            // Wrong Refesh Token
+                            return res.status(406).json({ message: 'Unauthorized' });
+                        }
+                        else {
+                            // Correct token we send a new access token
+                            const accessToken = generateAccessToken({
+                                id: user.id,
+                                login: user.login,
+                                profilePicture: user.profilePicture,
+                                fullName: user.fullName,
+                                rating: user.rating,
+                                role: user.role
+                            })
+                            return res.status(200).json({ 
+                                id: user.id,
+                                login: user.login,
+                                profilePicture: user.profilePicture,
+                                fullName: user.fullName,
+                                rating: user.rating,
+                                role: user.role,
+                                accessToken
+                             });
+                        }
+                    })
+                } else {
+                    return res.status(406).json({ message: 'Unauthorized' });
+                }
+            }
+        } catch (error) {
+            return res.status(500).json({msg: error.message})
+        }
+    },
 }

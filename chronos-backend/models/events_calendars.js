@@ -7,7 +7,7 @@ module.exports = class events_calendars extends Entity{
 
     async set(eventId, calendarId){
         return await this.sequelModel.create({
-            userId: userId,
+            eventId: eventId,
             calendarId: calendarId
         })
     };

@@ -1,20 +1,15 @@
 {
-    "loginToken": {
-        "secret": "SeCrEtFoRtOkEnxmf3ZEle9WoBBnK5vxaI",
-        "sign": {
-            "expiresIn": "1h"
-        }
+    "secret": "ro7ro97a7hgpbkGmOQ6p1pOgKjTbUz8DPY",
+    "accessToken": {
+        "expiresIn": "5s"
+    },
+    "refreshToken": {
+        "expiresIn": "60d"
     },
     "mailToken": {
-        "secret": "ro7ro97a7hgpbkGmOQ6p1pOgKjTbUz8DPY",
-        "sign":{
-            "expiresIn": ""
-        }
+        "expiresIn": ""
     },
     "passToken": {
-        "secret": "vwn087OyyGYUBOesBTcbZhanUv1dklYoVo",
-        "sign": {
-            "expiresIn": "15m"
-        }
+        "expiresIn": "15m"
     }
 }
