@@ -33,10 +33,10 @@ server.register(FastifyCookies, {
 server.register(FastifyFormbody);
 server.register(FastifyMultipart);
 server.register(FatsifyJWT, {secret: jwtConfig.secret, expiresIn: '60d'});
-server.register(FastifyStatic, {
-    root: Path.join(CURRENTDIR, 'public')
-});
 server.register(FastifyCors, {origin: 'http://localhost:3000', credentials: true })
+server.register(FastifyStatic, {
+    root: Path.join(CURRENTDIR, 'public'),
+});
 
 // decorators
 server.decorateReply('sendAuthToken', function (pawn, isRefresh = true) {
@@ -73,16 +73,15 @@ server.addHook('onRequest', function(request, reply, done) {
 server.addHook('onRequest', function(request, reply, done) {
     if(request.url.includes('/auth/'))
         return done();
-    console.log('aaaaaaaaaa--de-s-d-sd-ds-ds-d-d-sd-ds-ds-sd')
-    const token = request.headers.authorization;
 
+    const token = request.headers.authorization;
     if (!token) {
         return reply.status(403).send({
             msg: 'No access'
         });
     }
     try {
-        const user = jwt.verify(token)
+        const user = request.jwt.verify(token)
         request.user = user
         done();
     } catch (error) {
@@ -112,6 +111,7 @@ server.register(require('./routes/routesEvent.js'));    // Event
 
 // server starter
 server.listen({port: PORT}, function(err, adres){
+    console.log(PORT)
     if(err) {
         console.log(err);
         process.exit(1);
