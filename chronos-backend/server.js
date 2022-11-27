@@ -72,7 +72,8 @@ server.addHook('onRequest', function(request, reply, done) {
 });
 
 server.addHook('onRequest', function(request, reply, done) {  
-    if (request.url.includes('/auth/')){
+    if (request.url.includes('/auth/')
+    || request.url.includes('/users/avatar/')){
         return done();
     }
     
@@ -91,7 +92,6 @@ server.addHook('onRequest', function(request, reply, done) {
     } catch (error) { }
     done();
 });
-
 
 // routes
 server.register(require('./routes/routesAuth.js'));     // Auth
