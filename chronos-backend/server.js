@@ -31,17 +31,35 @@ server.register(FastifyCookies, {
 });
 server.register(FastifyFormbody);
 server.register(FastifyMultipart);
-server.register(FatsifyJWT, jwtConfig.loginToken);
+server.register(FatsifyJWT, {secret: jwtConfig.secret, expiresIn: '60d'});
 server.register(FastifyStatic, {
     root: Path.join(CURRENTDIR, 'public')
 });
 
 // decorators
-server.decorateReply('sendAuthToken', function (id, login) {
-    const AuthToken = server.jwt.sign({id:id, login:login});
-    this.status(200) // this means reply
-    .setCookie('AuthToken', AuthToken, {path: '/'})
-    .setCookie('login', login, {path: '/'});
+server.decorateReply('sendAuthToken', function (pawn, isRefresh = true) {
+    const data = ({
+        id: pawn.id,
+        login: pawn.login,
+        fullName: pawn.fullName,
+        email: pawn.email,
+        profilePic: pawn.profilePic,
+        location: pawn.location,
+        defaultCalendarId: pawn.defaultCalendarId
+    });
+    this.status(200) // 'this' means reply
+
+    if (isRefresh){
+        const refreshToken = server.jwt.sign(data, {expiresIn: jwtConfig.refreshToken.expiresIn});
+        this.setCookie('refreshToken', refreshToken, 
+        {path: '/', 
+        httpOnly: true, //protect from XSS(malicious client side script )
+        maxAge: 5000*1000}
+    )
+    }
+    const accessToken = server.jwt.sign(data, {expiresIn: jwtConfig.accessToken.expiresIn});
+    data.accessToken = accessToken;
+    this.send(data);
 });
 // Hooks
 // we bond 
@@ -51,26 +69,32 @@ server.addHook('onRequest', function(request, reply, done) {
     done();
 });
 server.addHook('onRequest', function(request, reply, done) {
-    if(!request.cookies.AuthToken)
-        done();
-    try {
-        server.jwt.verify(request.cookies.AuthToken, (err, payload)=> {
-            request.user = {
-                id: payload.id,
-                login: payload.login,
-            };
+    if(request.url.includes('/auth/'))
+        return done();
+    const token = request.headers.authorization;
+    if (!token) {
+        return reply.status(403).send({
+            msg: 'No access'
         });
+    }
+    try {
+        const user = jwt.verify(token)
+        request.user = user
+        done();
     } catch (error) {
-        // guess you should be registered to enter the app
-        // will change this later
-
-        /* TODO LIST:
-        // 0: cout
-        // 1: Nothing
-        // 2: NOTHING
-        // 3: absolutely nothing
-        // 4: le me think.... nothin
-        */
+        if (!request.cookies?.refreshToken) 
+            return reply.status(406).send({ message: 'Unauthorized' });
+        // Destructuring refreshToken from cookie
+        const refreshToken = request.cookies.refreshToken;
+    
+        // Verifying refresh token
+        jwt.verify(refreshToken, (err, user) => {
+            if (err)
+                // Wrong Refesh Token
+                return reply.status(406).send({ message: 'Unauthorized' });
+            else
+                return reply.sendAuthToken(user, false)
+        });
     }
     done();
 });
