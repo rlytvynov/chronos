@@ -49,39 +49,19 @@ export const CalendarList =  () => {
             {
                 id: 1,
                 title: 'Office Calendar',
-                description: 'Here all important meeting, discussions, tasks etc...',
-                events:  [
-                    {
-                        id: 3,
-                        title: 'Hui',
-                        color: 'blue',
-                        start: '2022-11-21T10:30:00'
-                    },
-                    {
-                        id: 4,
-                        title: 'Kavun',
-                        color: 'red',
-                        start: '2022-11-21T11:25:00'
-                    }
-                ]
+                description: 'Here all important ...',
+                events: [],
             },
             {
                 id: 2,
                 title: 'Home Calendar',
-                description: 'Here all things, related to life out of work',
-                events:  [
-                    {
-                        id: 2,
-                        title: 'Bla Bla',
-                        color: 'yellow',
-                        start: '2022-11-28T10:30:00'
-                    }
-                ]
+                description: 'Here all thi',
+                events: [],
             },
             {
                 id: 3,
                 title: 'Travel Calendar',
-                description: 'Here all important info and plans on the future',
+                description: 'Here all important ',
                 events: [],
             },
 
@@ -89,14 +69,7 @@ export const CalendarList =  () => {
                 id: 4,
                 title: 'Jopa Calendar',
                 description: 'Mnogaaaaaaaaaa',
-                events: [
-                    {
-                        id: 1,
-                        title: 'Jopa',
-                        color: 'red',
-                        start: '2023-12-28T10:30:00'
-                    }
-                ],
+                events: [],
             },
 
             // {

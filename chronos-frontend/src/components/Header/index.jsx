@@ -3,14 +3,15 @@ import "./Header.css"
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchAuth, selectIsAuth, selectAuthUser } from "../../utils/redux/slices/auth";
+import { useSelector , useDispatch } from 'react-redux'
+import { selectIsAuth, selectAuthUser, fetchLogout } from "../../utils/redux/slices/auth";
 import api from "../../api/api";
 
 export const Header =  () => {
     const navRef = useRef();
     const isAuth = useSelector(selectIsAuth)
 	const userData = useSelector(selectAuthUser)
+    const dispatch = useDispatch()
 
     let avatarName = 'none.png';
     if (userData) avatarName = userData.profilePic;
@@ -18,12 +19,12 @@ export const Header =  () => {
     console.log(AvatarUrl);
     
 	const onClickLogout = (e) => {
-		// e.preventDefault()
-		// if(window.confirm('Are you sure to logout?')) {
-		// 	dispatch(fetchLogout())
-		// 	window.localStorage.removeItem('accessToken')
-		// 	window.location.reload()
-		// }
+		e.preventDefault()
+		if(window.confirm('Are you sure to logout?')) {
+			dispatch(fetchLogout())
+			window.localStorage.removeItem('accessToken')
+			window.location.reload()
+		}
 	}
 
 	const showNavbar = () => {

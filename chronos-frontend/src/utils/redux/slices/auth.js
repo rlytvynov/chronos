@@ -7,7 +7,7 @@ export const fetchAuth = createAsyncThunk('auth/fetchAuth', async (params) => {
 })
 
 export const fetchAuthMe = createAsyncThunk('auth/fetchAuthMe', async () => {
-    const {data} = await api.post('check/me')
+    const {data} = await api.post('/me')
     return data
 })
 

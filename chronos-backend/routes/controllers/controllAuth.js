@@ -68,8 +68,8 @@ module.exports = {
     
     logouter : async (request, reply) => {
         console.log(request.cookies)
-        if(!request.cookies.AuthToken) reply.status(401).send();
-        else reply.status(200).setCookie('refreshToken', null, {path: '/'});
+        if(!request.cookies.refreshToken) reply.status(401).send();
+        else reply.status(200).clearCookie('refreshToken', {path: '/'});
     },
 
     reseter : async (request, reply) => {
@@ -135,17 +135,19 @@ module.exports = {
 
     authMe : async(request, reply) => {
         try {
+            
             if (request.user){
                 const user = new User(request.db.sequelize.models.users);
-                const pawn = await user.get({where: {id: request.user.id}})
+                const pawn = await user.get({id: request.user.id}, true)
                 if (pawn) {
                     return reply.status(200).send({
                         id: pawn.id,
                         login: pawn.login,
-                        profilePicture: pawn.profilePicture,
                         fullName: pawn.fullName,
-                        rating: pawn.rating,
-                        role: pawn.role,
+                        email: pawn.email,
+                        profilePic: pawn.profilePic,
+                        location: pawn.location,
+                        defaultCalendarId: pawn.defaultCalendarId
                     })
                 } else {
                     return reply.status(406).send({ message: 'Unauthorized' });

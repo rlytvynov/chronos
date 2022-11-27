@@ -88,25 +88,35 @@ nav {
 	}
 }
 
-.logIn {
+.logIn,
+.logout {
     margin-right: 0px;
     margin-left: 0px;
 	padding: 10px 15px;
-	background: #6D9886;
 	border-radius: 9px;
-}
-
-.logout {
-	background: var(--secondaryColor);
-	border: none;
-	padding: 10px 15px;
-	border-radius: 10px;
-	font-weight: 700;
+	cursor: pointer;
 	color: var(--textColor);
 }
 
+.logIn {
+	background-color: #6D9886;
+	border: 1px solid #6D9886;
+}
+
+.logout {
+	background-color: rgb(189, 60, 60);
+	border: 1px solid rgb(189, 60, 60);
+	margin-left: 10px;
+}
+
+.logIn:hover {
+	background-color: #5b8372;
+	border: 1px solid #5b8372;
+}
+
 .logout:hover {
-	cursor: pointer;
+	background-color: rgb(147, 46, 46);
+	border: 1px solid rgb(147, 46, 46);
 }
 
 .react-icons {

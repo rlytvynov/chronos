@@ -1,7 +1,15 @@
 import React, {useState} from "react";
 import styles from "./Account.module.scss"
+import { useSelector } from 'react-redux'
+import { selectIsAuth, selectAuthUser } from "../../utils/redux/slices/auth";
 
 export const Account = () => {
+    
+    const isAuth = useSelector(selectIsAuth)
+    const userData = useSelector(selectAuthUser)
+    let avatarName = 'none.png';
+    if (userData) avatarName = userData.profilePic;
+    const AvatarUrl = 'http://localhost:8888/api/users/avatar/' + avatarName;
     // eslint-disable-next-line
     const [events, setEvents] = useState([
         {
@@ -35,9 +43,9 @@ export const Account = () => {
             <h2>Account</h2>
             <div className={styles.accountInfo}>
                 <div className={styles.leftBar}>
-                    <div className={styles.profilePicture}> <img alt='' src={require('../../assets/home.png')}/></div>
-                    <div className={styles.userName}>Roman Lytvynov</div>
-                    <div className={styles.userLogin}>rlytvynov</div>
+                    <div className={styles.profilePicture}> <img alt='' src={AvatarUrl}/></div>
+                    <div className={styles.userName}>{userData.fullName}</div>
+                    <div className={styles.userLogin}>{userData.login}</div>
                     <button>Settings</button>
                     <button>Upload Photo</button>
                 </div>
