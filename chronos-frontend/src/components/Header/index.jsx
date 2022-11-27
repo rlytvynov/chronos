@@ -3,12 +3,24 @@ import "./Header.css"
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchAuth, selectIsAuth, selectAuthUser } from "../../utils/redux/slices/auth";
+import api from "../../api/api";
 
 export const Header =  () => {
     const navRef = useRef();
-	const isAuth = false
-	const userData = {}
+    const isAuth = useSelector(selectIsAuth)
+	const userData = useSelector(selectAuthUser)
 
+    if(isAuth) {
+        api.get( `users/avatar/${userData.profilePic}`)
+            .then(function (response) {
+                console.log(response)
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
 
 
 	const onClickLogout = (e) => {
@@ -42,7 +54,7 @@ export const Header =  () => {
             </nav>
             {
                 isAuth ? <div>
-                            <img style={{borderRadius: '50%', marginRight: '5px'}} src={userData.profilePicture} alt='pic' width={32} height={32}></img>
+                            <img style={{borderRadius: '50%', marginRight: '5px'}} src={userData.profilePic} alt='pic' width={32} height={32}></img>
                             <span style={{marginRight: '10px'}}>{userData.login}</span>
                             <button className="logout" onClick={onClickLogout}>Logout</button>
                         </div> : 

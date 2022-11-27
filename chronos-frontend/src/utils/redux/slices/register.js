@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api from "../../API/api";
+import api from "../../../api/api";
 
 export const fetchRegister = createAsyncThunk('auth/fetchRegister', async (params) => {
     const {data} = await api.post('auth/register', params)

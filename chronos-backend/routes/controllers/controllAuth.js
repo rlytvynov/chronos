@@ -60,7 +60,7 @@ module.exports = {
                 login: request.body.login
             }, {expiresIn: jwtConfig.mailToken.expiresIn}));
 
-            reply.status(204).send();
+            reply.status(200).send({msg: 'Confirm your email!'});
         } catch (error) {
             errorReplier(error, reply);
         }
@@ -137,6 +137,8 @@ module.exports = {
     authMe : async(request, reply) => {
         try {
             const user = new User(request.db.sequelize.models.users);
+            console.log('----------------------JOOOPPPAAA----------------------------------')
+            console.log(request.user)
             const pawn = await user.get({id: request.user.id}, true);
             if (!pawn) 
                 return reply.status(406).send({ message: 'Unauthorized' });

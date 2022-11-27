@@ -2,10 +2,14 @@ import React from "react";
 import styles from './Login.module.scss'
 import { useForm } from "react-hook-form";
 import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchRegister, selectIsRegistered } from "../../utils/redux/slices/register";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faLock, faAddressCard, faEnvelope} from "@fortawesome/free-solid-svg-icons";
 
 export const Register = () => {
+    const isRegistered = useSelector(selectIsRegistered)
+    const dispatch = useDispatch()
     const {
         register,
         handleSubmit,
@@ -13,15 +17,12 @@ export const Register = () => {
     } = useForm();
 
     const onSubmit = async (values) => {
-        // const data = await dispatch(fetchAuth(values))
-        // if (!data.payload) {
-        //     return alert('Unable to authorize')
-        // }
-        // if ('accessToken' in data.payload) {
-        //     window.localStorage.setItem('accessToken', data.payload.accessToken)
-        // } else {
-        //     alert('Unable to authorize')
-        // }
+        const data = await dispatch(fetchRegister(values))
+        if (!data.payload) {
+            return alert('Unable to authorize')
+        } else {
+            alert(data.payload.msg)
+        }
     }
 
     return (
@@ -35,10 +36,7 @@ export const Register = () => {
                 {errors.email && <p className='loginError'>Email is required.</p>}
                 <div className={styles.passwordField}><FontAwesomeIcon icon = {faLock}/><input type="password" placeholder='Password' {...register('password', { required: true })} /></div>
                 {errors.password && <p className='loginError'>Password is required.</p>}
-                <div className={styles.passwordField}><FontAwesomeIcon icon = {faLock}/><input type="password" placeholder='Password' {...register('password', { required: true })} /></div>
-                {errors.password && <p className='loginError'>Please, repeat your password.</p>}
 
-                <div className={styles.reminders} style={{textAlign: 'right'}}> <Link to='/register'>Forgot password?</Link></div>
                 <div className={styles.logInField}><input type="submit" value="Register"/></div>
                 <div className={styles.reminders} style={{textAlign: 'center'}}>Don't have an account yet? <Link to='/login'>Sign in</Link></div>
             </form>

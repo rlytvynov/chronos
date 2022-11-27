@@ -1,11 +1,16 @@
 import React from "react";
 import styles from './Login.module.scss'
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchAuth, selectIsAuth } from "../../utils/redux/slices/auth";
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faLock} from "@fortawesome/free-solid-svg-icons";
+import { Navigate } from "react-router-dom";
 
 export const Login = () => {
+    const isAuth = useSelector(selectIsAuth)
+    const dispatch = useDispatch()
     const {
         register,
         handleSubmit,
@@ -13,15 +18,19 @@ export const Login = () => {
     } = useForm();
 
     const onSubmit = async (values) => {
-        // const data = await dispatch(fetchAuth(values))
-        // if (!data.payload) {
-        //     return alert('Unable to authorize')
-        // }
-        // if ('accessToken' in data.payload) {
-        //     window.localStorage.setItem('accessToken', data.payload.accessToken)
-        // } else {
-        //     alert('Unable to authorize')
-        // }
+        const data = await dispatch(fetchAuth(values))
+        console.log(data.payload)
+        if (!data.payload) {
+            return alert('Unable to authorize')
+        }
+        if ('accessToken' in data.payload) {
+            window.localStorage.setItem('accessToken', data.payload.accessToken)
+        } else {
+            alert('Unable to authorize')
+        }
+    }
+    if(isAuth) {
+        return <Navigate to ='/account'/>
     }
 
     return (

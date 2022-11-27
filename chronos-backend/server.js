@@ -5,6 +5,7 @@ const Fastify = require('fastify').default,
       FatsifyJWT = require('@fastify/jwt'),
       FastifyCookies = require('@fastify/cookie'),
       FastifyMultipart = require('@fastify/multipart');
+      FastifyCors = require('@fastify/cors')
 // Other useful reqs
 const Path = require('path');
 // const names
@@ -35,6 +36,7 @@ server.register(FatsifyJWT, {secret: jwtConfig.secret, expiresIn: '60d'});
 server.register(FastifyStatic, {
     root: Path.join(CURRENTDIR, 'public')
 });
+server.register(FastifyCors, {origin: 'http://localhost:3000', credentials: true })
 
 // decorators
 server.decorateReply('sendAuthToken', function (pawn, isRefresh = true) {
@@ -71,7 +73,9 @@ server.addHook('onRequest', function(request, reply, done) {
 server.addHook('onRequest', function(request, reply, done) {
     if(request.url.includes('/auth/'))
         return done();
+    console.log('aaaaaaaaaa--de-s-d-sd-ds-ds-d-d-sd-ds-ds-sd')
     const token = request.headers.authorization;
+
     if (!token) {
         return reply.status(403).send({
             msg: 'No access'

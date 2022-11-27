@@ -9,7 +9,26 @@ import { CalendarList} from "./components/CalendarList"
 import { CalendarItem } from "./components/CalendarItem"
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchAuthMe, selectIsAuth } from "./utils/redux/slices/auth";
+
 function App() {
+    const dispatch = useDispatch()
+    // eslint-disable-next-line
+    const isAuth = useSelector(selectIsAuth)
+  
+    useEffect(() => {
+        const updateToken = async () => {
+          const data = await dispatch(fetchAuthMe())
+          console.log(data)
+          if (data.payload && 'accessToken' in data.payload) {
+              window.localStorage.setItem('accessToken', data.payload.accessToken)
+          }
+      }
+      updateToken()
+    }, [dispatch])
+    
     return (
         <Router>
             <Header/>
@@ -18,7 +37,7 @@ function App() {
                 <Route exact path='/account' element={ <Account/> } />
 
                 <Route exact path='/login' element={ <Login/> } />
-                 <Route exact path='/register' element={ <Register/> } />
+                <Route exact path='/register' element={ <Register/> } />
                 {/*<Route exact path='/activation/:activationToken' element={ <Activation/> } /> */}
 
 

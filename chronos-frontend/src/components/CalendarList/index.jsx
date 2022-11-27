@@ -122,12 +122,6 @@ export const CalendarList =  () => {
     const modalInfoCalendar = useOpenModal(false)
     const modalInfoEvent = useOpenModal(false)
 
-    const handleEventClick = (arg) => {
-        console.log(arg.event)
-        modalInfoEvent.handleData(arg.id)
-        modalInfoEvent.handleOpen()  
-    }
-
     const handlePageChange = (page) => {
     // API.get(`calendars?page=${page}`)
     //     .then(response => {
