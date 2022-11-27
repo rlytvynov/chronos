@@ -2,13 +2,12 @@ import React from "react";
 import styles from './Login.module.scss'
 import { useForm } from "react-hook-form";
 import { Link } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchRegister, selectIsRegistered } from "../../utils/redux/slices/register";
+import { useDispatch } from 'react-redux';
+import { fetchRegister } from "../../utils/redux/slices/register";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faLock, faAddressCard, faEnvelope} from "@fortawesome/free-solid-svg-icons";
 
 export const Register = () => {
-    const isRegistered = useSelector(selectIsRegistered)
     const dispatch = useDispatch()
     const {
         register,

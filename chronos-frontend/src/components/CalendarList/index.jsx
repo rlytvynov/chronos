@@ -8,9 +8,12 @@ import  Pagination from 'react-js-pagination'
 import { useOpenModal } from "../../utils/stateEventCreationForm";
 import { CalendarForm } from "../../pages/CalendarForm";
 import { EventData } from "../../pages/EventData";
+import { useSelector } from 'react-redux'
+import { selectIsAuth } from "../../utils/redux/slices/auth";
 
 
 export const CalendarList =  () => {
+    const isAuth = useSelector(selectIsAuth)
 
     const [events, setEvents] = useState([
         {
@@ -113,7 +116,11 @@ export const CalendarList =  () => {
         <div className={styles.calendarList}>
             <div className={styles.hederBlock}>
                 <h2>Calendars</h2>
-                <div><button onClick={handleNewCalendarOpen}>+ New Calendar</button></div>
+                <div>
+                    {
+                        isAuth?<button onClick={handleNewCalendarOpen}>+ New Calendar</button>:<></>
+                    }                   
+                </div>
             </div>
             <div className={styles.calendarListInner}>
                 <div className={styles.allEvents}>
@@ -124,6 +131,7 @@ export const CalendarList =  () => {
                     </div>
                     <div className={styles.eventScroll}>
                     {
+                        isAuth ?
                         events.map((item) => (
                             <div key={item.id} className={styles.eventItem} onClick={() => { modalInfoEvent.handleData(item); modalInfoEvent.handleOpen() }} style={new Date(Date.now()) > new Date(item.start) ? {opacity: 0.3} : {opacity: 1}}>
                                 <div className={styles.eventTitle}>
@@ -167,12 +175,14 @@ export const CalendarList =  () => {
                                     }
                                 </div>
                             </div>
-                        ))
+                        )) : <div className={styles.logInContinue}>Log in to continue...</div>
                     }
                     </div>
                 </div>
                 <div className={styles.allCalendars}>
-                    <div className={styles.allCalendarsInner}>
+                    {
+                        isAuth ?
+                        <div className={styles.allCalendarsInner}>
                         {
                             calendars.calendars.map(calendar => (
                                 <Link key={calendar.id} to={"/calendars/" + calendar.id} className={styles.calendarLink}>
@@ -237,14 +247,17 @@ export const CalendarList =  () => {
                                 </Link>
                             ))
                         }
-                    </div>
-                        <Pagination className={styles.pagination}
-                            activePage={calendars.currentPage}
-                            itemsCountPerPage={calendars.itemsCountPerPage}
-                            totalItemsCount={calendars.totalItems}
-                            pageRangeDisplayed={calendars.totalPages}
-                            onChange={handlePageChange}
-                        />
+                    </div> : <></>
+                    }
+                    {
+                        isAuth ? <Pagination className={styles.pagination}
+                        activePage={calendars.currentPage}
+                        itemsCountPerPage={calendars.itemsCountPerPage}
+                        totalItemsCount={calendars.totalItems}
+                        pageRangeDisplayed={calendars.totalPages}
+                        onChange={handlePageChange} 
+                        /> : <></>
+                    }
                 </div>
             </div>
             <CalendarForm

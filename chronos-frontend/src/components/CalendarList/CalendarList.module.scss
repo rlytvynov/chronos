@@ -127,21 +127,17 @@
                         text-align: center;
                         font-weight: 700;
                     }
-    
-                    // .eventColor {
-                    //     border-radius: 6px;
-                    //     width: 14px;
-                    //     height: inherit;
-                    //     margin-right: 10px;
-                    // }
-                    // .eventInfo {
-                    //     display: flex;
-                    //     justify-content: space-between;
-                    //     align-items: center;
-                    //     padding: 10px 0px;
-                    //     border-radius: 0px 6px 6px 0px;
-                    //     color: #000000;
-                    // }
+                }
+                .logInContinue {
+                    margin-top: 50%;
+                    font-family: 'Inter';
+                    font-style: normal;
+                    font-weight: 700;
+                    font-size: 24px;
+                    line-height: 29px;
+                    text-transform: uppercase;
+                    color: #393E46;
+                    text-align: center;
                 }
                 /* Firefox < 16 */
                 
@@ -150,6 +146,20 @@
                 .eventItem:active {
                     transform: scale(0.98);
                 }
+            }
+        }
+
+        .allCalendars {
+            .logInContinue {
+                margin-top: 50%;
+                font-family: 'Inter';
+                font-style: normal;
+                font-weight: 700;
+                font-size: 24px;
+                line-height: 29px;
+                text-transform: uppercase;
+                color: #393E46;
+                text-align: center;
             }
         }
 

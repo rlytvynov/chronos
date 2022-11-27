@@ -9,11 +9,11 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 export const EventData = (props) => {
 
     const {
-        register,
-        handleSubmit,
         reset
     } = useForm();
 
+
+// eslint-disable-next-line
     const [event, setEvent] = useState({ 
             id: props.id,
             title: 'Meeting with friends', 
@@ -33,7 +33,7 @@ export const EventData = (props) => {
 
 
 
-    const onSubmit = (values) => {
+    const handleSubmit = (values) => {
         reset()
         props.handleClose()
     }
@@ -45,7 +45,7 @@ export const EventData = (props) => {
 
     return(
         <div className={`${styles.eventForm} ${props.open ? styles.active : styles.unactive}`}>
-            <form className={styles.eventFormCenter} onSubmit={handleSubmit(onSubmit)}>
+            <form className={styles.eventFormCenter} onSubmit={handleSubmit}>
                 <div className={styles.crossButton} onClick={handleCloseSettings}><FontAwesomeIcon icon={faXmark}/></div>
                 <div className={styles.titleBlock}>
                     <div className={styles.title}>
@@ -55,7 +55,7 @@ export const EventData = (props) => {
                     <div id={event.color} className={styles.color}></div>
                 </div>
                 <div className={styles.description}>{event.description}</div>
-                <div><button>Delete</button></div>
+                <div><input type="submit" value="Delete" /></div>
             </form>
         </div>
     )

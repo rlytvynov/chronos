@@ -41,31 +41,35 @@ export const Account = () => {
     return (
         <div className={styles.accountPage}>
             <h2>Account</h2>
-            <div className={styles.accountInfo}>
-                <div className={styles.leftBar}>
-                    <div className={styles.profilePicture}> <img alt='' src={AvatarUrl}/></div>
-                    <div className={styles.userName}>{userData.fullName}</div>
-                    <div className={styles.userLogin}>{userData.login}</div>
-                    <button>Settings</button>
-                    <button>Upload Photo</button>
-                </div>
-                <div className={styles.rightBar}>
-                    <h3>Upcomming event</h3>
-                    {
-                        events.map((item) => (
-                            <div key={item.id} className={styles.eventItem}>
-                                <div className={styles.eventTitle}>
-                                    <div style={{background: item.color}} className={styles.eventColor}></div>
-                                    <div className={styles.eventName}>{item.title}</div>
+            {
+                isAuth ? 
+                <div className={styles.accountInfo}>
+                    <div className={styles.leftBar}>
+                        <div className={styles.profilePicture}> <img alt='' src={AvatarUrl}/></div>
+                        <div className={styles.userName}>{userData.fullName}</div>
+                        <div className={styles.userLogin}>{userData.login}</div>
+                        <button>Settings</button>
+                        <button>Upload Photo</button>
+                    </div>
+                    <div className={styles.rightBar}>
+                        <h3>Upcomming event</h3>
+                        {
+                            events.map((item) => (
+                                <div key={item.id} className={styles.eventItem}>
+                                    <div className={styles.eventTitle}>
+                                        <div style={{background: item.color}} className={styles.eventColor}></div>
+                                        <div className={styles.eventName}>{item.title}</div>
+                                    </div>
+                                    <div className={styles.eventTime}>
+                                        {item.start}
+                                    </div>
                                 </div>
-                                <div className={styles.eventTime}>
-                                    {item.start}
-                                </div>
-                            </div>
-                        ))
-                    }
-                </div>
-            </div>
+                            ))
+                        }
+                    </div>
+                </div> : 
+                <div className={styles.logInContinue}>Log in to continue...</div>
+            }
         </div>
     )
 }

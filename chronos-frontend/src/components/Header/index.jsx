@@ -1,11 +1,10 @@
-import React, {useRef, useState} from "react";
+import React, {useRef} from "react";
 import "./Header.css"
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useSelector , useDispatch } from 'react-redux'
 import { selectIsAuth, selectAuthUser, fetchLogout } from "../../utils/redux/slices/auth";
-import api from "../../api/api";
 
 export const Header =  () => {
     const navRef = useRef();
