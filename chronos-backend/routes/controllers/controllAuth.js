@@ -69,8 +69,7 @@ module.exports = {
     logouter : async (request, reply) => {
         console.log(request.cookies)
         if(!request.cookies.AuthToken) reply.status(401).send();
-        else reply.status(200).setCookie('AuthToken', null, {path: '/'})
-        .setCookie('login', null, {path: '/'});
+        else reply.status(200).setCookie('refreshToken', null, {path: '/'});
     },
 
     reseter : async (request, reply) => {
@@ -136,82 +135,41 @@ module.exports = {
 
     authMe : async(request, reply) => {
         try {
-            const user = new User(request.db.sequelize.models.users);
-            console.log('----------------------JOOOPPPAAA----------------------------------')
-            console.log(request.user)
-            const pawn = await user.get({id: request.user.id}, true);
-            if (!pawn) 
-                return reply.status(406).send({ message: 'Unauthorized' });
-            return reply.status(200).send({
-                id: pawn.id,
-                login: pawn.login,
-                fullName: pawn.fullName,
-                email: pawn.email,
-                profilePic: pawn.profilePic,
-                location: pawn.location,
-                defaultCalendarId: pawn.defaultCalendarId
-            });
-        } catch (error) {
-            return reply.status(500).send({msg: error.message});
-        }
-    },
-
-    me: async function (req, res) {
-        try {
-            if(req.user) {
-                const user = await User.findOne({where: {id: req.user.id}})
-                if (user) {
-                    return res.status(200).json({
-                        id: user.id,
-                        login: user.login,
-                        profilePicture: user.profilePicture,
-                        fullName: user.fullName,
-                        rating: user.rating,
-                        role: user.role,
+            if (request.user){
+                const user = new User(request.db.sequelize.models.users);
+                const pawn = await user.get({where: {id: request.user.id}})
+                if (pawn) {
+                    return reply.status(200).send({
+                        id: pawn.id,
+                        login: pawn.login,
+                        profilePicture: pawn.profilePicture,
+                        fullName: pawn.fullName,
+                        rating: pawn.rating,
+                        role: pawn.role,
                     })
                 } else {
-                    return res.status(406).json({ message: 'Unauthorized' });
-                }
-            } else {
-                if (req.cookies?.refreshToken) {
-                    console.log('hello')// Destructuring refreshToken from cookie
-                    const refreshToken = req.cookies.refreshToken;
-            
-                    // Verifying refresh token
-                    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, 
-                    (err, user) => {
-                        if (err) {
-            
-                            // Wrong Refesh Token
-                            return res.status(406).json({ message: 'Unauthorized' });
-                        }
-                        else {
-                            // Correct token we send a new access token
-                            const accessToken = generateAccessToken({
-                                id: user.id,
-                                login: user.login,
-                                profilePicture: user.profilePicture,
-                                fullName: user.fullName,
-                                rating: user.rating,
-                                role: user.role
-                            })
-                            return res.status(200).json({ 
-                                id: user.id,
-                                login: user.login,
-                                profilePicture: user.profilePicture,
-                                fullName: user.fullName,
-                                rating: user.rating,
-                                role: user.role,
-                                accessToken
-                             });
-                        }
-                    })
-                } else {
-                    return res.status(406).json({ message: 'Unauthorized' });
+                    return reply.status(406).send({ message: 'Unauthorized' });
                 }
             }
+            
+            if (!request.cookies?.refreshToken)
+                return reply.status(406).send({ message: 'Unauthorized' });
+            //
+
+            // Destructuring refreshToken from cookie
+            const refreshToken = request.cookies.refreshToken;
+
+            // Verifying refresh token
+            request.jwt.verify(refreshToken, (err, payload) => {
+                if (err) // Wrong Refesh Token
+                    return reply.status(406).send({ message: 'Unauthorized' });
+
+                // Correct token we send a new access token
+                reply.sendAuthToken(payload, false)
+            })
+
         } catch (error) {
-            return res.status(500).json({msg: error.message})
+            return res.status(500).send({msg: error.message})
         }
-    },
+    }
 }

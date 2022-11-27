@@ -12,6 +12,11 @@ export const Header =  () => {
     const isAuth = useSelector(selectIsAuth)
 	const userData = useSelector(selectAuthUser)
 
+    let avatarName = 'none.png';
+    if (userData) avatarName = userData.profilePic;
+    const AvatarUrl = 'http://localhost:8888/api/users/avatar/' + avatarName;
+    console.log(AvatarUrl);
+    
 	const onClickLogout = (e) => {
 		// e.preventDefault()
 		// if(window.confirm('Are you sure to logout?')) {
@@ -43,7 +48,7 @@ export const Header =  () => {
             </nav>
             {
                 isAuth ? <div>
-                            <img style={{borderRadius: '50%', marginRight: '5px'}} src={`http://localhost:8888/${userData.profilePic}`} alt='pic' width={32} height={32}/>
+                            <img style={{borderRadius: '50%', marginRight: '5px'}} src={AvatarUrl} alt='pic' width={32} height={32}/>
                             <button className="logout" onClick={onClickLogout}>Logout</button>
                         </div> : 
                         <Link className="logIn" to="/login">Log in</Link>

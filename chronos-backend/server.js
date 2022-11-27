@@ -70,35 +70,25 @@ server.addHook('onRequest', function(request, reply, done) {
     request.jwt = server.jwt;
     done();
 });
-server.addHook('onRequest', function(request, reply, done) {
-    if(request.url.includes('/auth/'))
-        return done();
 
-    const token = request.headers.authorization;
-    if (!token) {
-        return reply.status(403).send({
-            msg: 'No access'
-        });
+server.addHook('onRequest', function(request, reply, done) {  
+    if (request.url.includes('/auth/')){
+        return done();
     }
-    try {
-        const user = request.jwt.verify(token)
-        request.user = user
-        done();
-    } catch (error) {
-        if (!request.cookies?.refreshToken) 
-            return reply.status(406).send({ message: 'Unauthorized' });
-        // Destructuring refreshToken from cookie
-        const refreshToken = request.cookies.refreshToken;
     
-        // Verifying refresh token
-        jwt.verify(refreshToken, (err, user) => {
-            if (err)
-                // Wrong Refesh Token
-                return reply.status(406).send({ message: 'Unauthorized' });
-            else
-                return reply.sendAuthToken(user, false)
-        });
+    const token = request.headers.authorization
+
+    if (!token){
+        reply.status(403).send({ message: 'No access' });
+        return done();
     }
+    
+    try {
+        request.jwt.verify(token, (error, payload) => {
+            if (error) throw error;
+            request.user = payload;
+        })
+    } catch (error) { }
     done();
 });
 
