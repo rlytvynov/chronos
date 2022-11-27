@@ -51,7 +51,7 @@ module.exports = {
         try {
             if (!request.params || !request.params.avatarName)
                 throw new CustomError(1023);
-            const buffer = Fs.readFileSync('./profilePics/' + request.params.avatarName)
+            const buffer = Fs.readFileSync('./public/profilePics/' + request.params.avatarName)
             reply.status(200).send(buffer);
         } catch (error) {
             errorReplier(error, reply);
@@ -127,7 +127,7 @@ module.exports = {
                 throw new CustomError(1006);
             
             const avatarName = request.user.login + '_' + uuidv4() + '.png';
-            const avatarPath = './profilePics/' + avatarName;
+            const avatarPath = './public/profilePics/' + avatarName;
             const data = await request.file();
 
             const user = new User(request.db.sequelize.models.users);
