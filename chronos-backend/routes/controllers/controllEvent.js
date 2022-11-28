@@ -28,20 +28,24 @@ module.exports = {
         try {
             idChecker(request.params.calendarId, 1023);
             idChecker(request.user.id, 1006);
-            
+            insertionProtector({leftBorder: request.params.leftBorder});
+            insertionProtector({rightBorder: request.params.rightBorder});
             const calendarModel = new Calendar(request.db.sequelize.models.calendars);
             const [calendar] = await calendarModel.get(
                 request.db.sequelize.models.users_calendars,
                 request.user.id,
                 request.params.calendarId
             );
-
+            
+            console.log(request.params);
             if(!calendar) throw new CustomError(1017);
 
             const eventModel = new Event(request.db.sequelize.models.events);
             const events = await eventModel.getAll(
                 request.db.sequelize.models.events_calendars,
-                request.params.calendarId
+                request.params.calendarId,
+                request.params.leftBorder,
+                request.params.rightBorder
             );
 
             reply.status(200).send(events);

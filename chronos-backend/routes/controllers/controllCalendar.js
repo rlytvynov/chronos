@@ -26,7 +26,7 @@ module.exports = {
         }
     },
 
-    getAll : async (request, reply) => {
+    getAllRaw : async (request, reply) => {
         try {
             idChecker(request.user.id, 1006);
             
@@ -34,6 +34,24 @@ module.exports = {
             const calendars = await calendarModel.get(
                 request.db.sequelize.models.users_calendars,
                 request.user.id
+            );
+
+            reply.status(200).send(calendars);
+        } catch (error) {
+            errorReplier(error, reply);
+        }
+    },
+
+    getAll : async (request, reply) => {
+        try {
+            idChecker(request.user.id, 1006);
+            
+            const calendarModel = new Calendar(request.db.sequelize.models.calendars);
+            const calendars = await calendarModel.getAll(
+                request.db.sequelize.models.users_calendars,
+                request.user.id,
+                request.db.sequelize.models.events_calendars,
+                request.db.sequelize.models.events
             );
 
             reply.status(200).send(calendars);

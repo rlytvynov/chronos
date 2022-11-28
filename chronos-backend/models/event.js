@@ -9,8 +9,15 @@ module.exports = class Event extends Entity{
         return await super.getOne({id: eventId});
     }
 
-    async getAll(events_calendars, calendarId) {
+    async getAll(events_calendars, calendarId, borderLeft, borderRight) {
+        const searchObj = {}
+        if (borderLeft) // we want to get events that were ongoing on the left border
+            searchObj.endsAt = {[this.Op.gte]: borderLeft};
+        if (borderRight) // we want to get events that started before right border
+            searchObj.startsAt = {[this.Op.lte]: borderRight};
+        console.log(searchObj);
         return await this.sequelModel.findAll({
+            where: searchObj,
             raw: true,
             include:[{
                 model: events_calendars,
