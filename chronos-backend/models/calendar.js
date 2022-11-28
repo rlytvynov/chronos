@@ -34,6 +34,32 @@ module.exports = class Calendar extends Entity{
         });
     }
 
+    async getAll(users_calendars, userId, events_calendars, events) {
+        return await this.sequelModel.findAll({
+            include:[
+                {
+                    model: users_calendars,
+                    as: 'users_calendars',
+                    where: {userId: userId},
+                    attributes: ['role'],
+                    raw: true
+                },
+                {
+                    model: events_calendars,
+                    as: 'events_calendars',
+                    attributes: ['event.id'],
+                    raw: true,
+                    include:[{
+                        model: events,
+                        as: 'event',
+                        attributes: [],
+                        raw: true
+                    }]
+                }
+            ]
+        });      
+    }
+
     async set(data, id){
         this.insertionProtector(data);
 
