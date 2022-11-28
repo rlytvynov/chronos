@@ -20,7 +20,13 @@ export const EventForm = (props) => {
             start: values.dateFrom + 'T' + values.start,
             end: values.dateTo + 'T' + values.end,
         }
-
+        // api.post('events/calendar=:calendarId', values)
+        // .then (function(response) {
+        //     alert(response.data.message)
+        // })
+        // .catch(function(error){
+        //     console.log(error);
+        // }) 
         console.log(newEvent)
         reset()
         props.handleClose()

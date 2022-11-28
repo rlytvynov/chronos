@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import styles from "./CalendarForm.module.scss"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark} from '@fortawesome/free-solid-svg-icons';
+import api from "../../api/api";
 
 export const CalendarForm = (props) => {
 
@@ -13,7 +14,13 @@ export const CalendarForm = (props) => {
     } = useForm();
 
     const onSubmit = (values) => {
-        console.log(values)
+        api.post('calendars', values)
+        .then (function(response) {
+            alert(response.data.message)
+        })
+        .catch(function(error){
+            console.log(error);
+        }) 
         props.handleClose()
         reset()
     }

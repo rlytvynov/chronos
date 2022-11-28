@@ -56,7 +56,7 @@ module.exports = {
             const calendar = await calendarModel.set({title: title, description: description});
             await users_calendars.set(request.user.id, calendar.id, 'master');
 
-            reply.status(204).send();
+            reply.status(200).send({message: 'Calendar succesfully created!'});
         } catch (error) {
             errorReplier(error, reply);
         }
