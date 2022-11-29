@@ -33,8 +33,8 @@ CREATE TABLE events(
     description TEXT,
     type ENUM('arrangement', 'reminder', 'task') NOT NULL,
     color VARCHAR(7) NOT NULL,
-    startsAt DATETIME NOT NULL,
-    endsAt DATETIME NOT NULL,
+    start DATETIME NOT NULL,
+    end DATETIME NOT NULL,
     
     FOREIGN KEY (adminid)
 		REFERENCES users(id)

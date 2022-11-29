@@ -117,7 +117,7 @@ module.exports = {
                     userId: pawnInvited.id,
                     calendarId: request.params.calendarId
                 }),
-                pawnInvited.login,
+                request.user.login,
                 calendar.title                
             );
 

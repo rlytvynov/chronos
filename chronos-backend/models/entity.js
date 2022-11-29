@@ -42,24 +42,4 @@ module.exports = class Entity{
             where: searchObj
         });
     }
-
-    /*
-    // Uberi "isRaw" Dibil
-    async getAllbyCols(selectObject, excludeAttrs = []) {
-        return await this.sequelModel.findAll({
-            attributes: {exclude: excludeAttrs},
-            where: selectObject
-        });
-    };
-    
-    // Uberi "isRaw" Dibil
-    async getOnebyCols(selectObject, excludeAttrs = []) {
-        const [Users] = await this.sequelModel.findAll({
-            attributes: {exclude: excludeAttrs},
-            where: selectObject
-        });
-        return Users;
-    };
-
-    */
 }
