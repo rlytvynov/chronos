@@ -47,7 +47,7 @@ module.exports = class Calendar extends Entity{
                 {
                     model: events_calendars,
                     as: 'events_calendars',
-                    attributes: ['event.id'],
+                    attributes: ['eventId'],
                     raw: true,
                     include:[{
                         model: events,

@@ -21,7 +21,7 @@ function App() {
     useEffect(() => {
         const updateToken = async () => {
           const data = await dispatch(fetchAuthMe())
-          console.log(data)
+          //console.log(data)
           if (data.payload && 'accessToken' in data.payload) {
               window.localStorage.setItem('accessToken', data.payload.accessToken)
           }

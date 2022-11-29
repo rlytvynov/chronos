@@ -45,7 +45,7 @@ module.exports = {
     getAll : async (request, reply) => {
         try {
             idChecker(request.user.id, 1006);
-            
+            const queryData = request.query
             const calendarModel = new Calendar(request.db.sequelize.models.calendars);
             const calendars = await calendarModel.getAll(
                 request.db.sequelize.models.users_calendars,
@@ -54,7 +54,7 @@ module.exports = {
                 request.db.sequelize.models.events
             );
 
-            reply.status(200).send(calendars);
+            reply.status(200).send(paginate(calendars, 4, queryData.page ? Number(queryData.page) : 1));
         } catch (error) {
             errorReplier(error, reply);
         }
@@ -242,5 +242,15 @@ module.exports = {
         } catch (error) {
             errorReplier(error, reply);
         }
+    }
+}
+
+function paginate(array, page_size, page_number) {
+    return {
+        totalItems: array.length,
+        itemsCountPerPage: page_size,
+        totalPages: Math.ceil(array.length / page_size),
+        currentPage: page_number,
+        calendars: array.slice((page_number - 1) * page_size, page_number * page_size)
     }
 }

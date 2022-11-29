@@ -15,7 +15,6 @@ export const Header =  () => {
     let avatarName = 'none.png';
     if (userData) avatarName = userData.profilePic;
     const AvatarUrl = 'http://localhost:8888/api/users/avatar/' + avatarName;
-    console.log(AvatarUrl);
     
 	const onClickLogout = (e) => {
 		e.preventDefault()

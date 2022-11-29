@@ -10,6 +10,7 @@ import { CalendarForm } from "../../pages/CalendarForm";
 import { EventData } from "../../pages/EventData";
 import { useSelector } from 'react-redux'
 import { selectIsAuth } from "../../utils/redux/slices/auth";
+import api from "../../api/api";
 
 
 export const CalendarList =  () => {
@@ -43,47 +44,25 @@ export const CalendarList =  () => {
     ])
 
     // eslint-disable-next-line
-    const [calendars , setCalendars] = useState({
-        currentPage: 1,
-        itemsCountPerPage: 4,
-        totalItems: 5,
-        totalPages: 2,
-        calendars: [
-            {
-                id: 1,
-                title: 'Office Calendar',
-                description: 'Here all important ...',
-                events: [],
-            },
-            {
-                id: 2,
-                title: 'Home Calendar',
-                description: 'Here all thi',
-                events: [],
-            },
-            {
-                id: 3,
-                title: 'Travel Calendar',
-                description: 'Here all important ',
-                events: [],
-            },
+    const [calendars , setCalendars] = useState({loading: true})
 
-            {
-                id: 4,
-                title: 'Jopa Calendar',
-                description: 'Mnogaaaaaaaaaa',
-                events: [],
-            },
+    const getAllCalendars = () => {
+        api.get('calendars-events')
+        .then(function(response) {
+            console.log(response)
+            setCalendars({
+                loading: false,
+                data: response.data
+            })
+        })
+        .catch(function(error) {
+            console.log(error.message)
+        })
+    }
 
-            // {
-            //     id: 5,
-            //     title: 'Test Calendar',
-            //     description: 'Dohuiiiiaaaaaa',
-            //     events: [],
-            // }
-            
-        ]
-    })
+    useEffect(() => {
+        getAllCalendars()
+    }, [])
 
     const sortEventsAsc = () => {
         let arr = [...events]
@@ -99,13 +78,16 @@ export const CalendarList =  () => {
     const modalInfoEvent = useOpenModal(false)
 
     const handlePageChange = (page) => {
-    // API.get(`calendars?page=${page}`)
-    //     .then(response => {
-    //         setCalendars(response.data)
-    //     })
-    //     .catch(function (error) {
-    //         console.log(error);
-    //     });
+        api.get(`calendars-events?page=${page}`)
+            .then(response => {
+                setCalendars({
+                    loading: false,
+                    data: response.data
+                })
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     const handleNewCalendarOpen = () => {
@@ -184,7 +166,7 @@ export const CalendarList =  () => {
                         isAuth ?
                         <div className={styles.allCalendarsInner}>
                         {
-                            calendars.calendars.map(calendar => (
+                            calendars.loading ? <h2>Loading...</h2> : calendars.data.calendars.map(calendar => (
                                 <Link key={calendar.id} to={"/calendars/" + calendar.id} className={styles.calendarLink}>
                                     <div className={styles.calendarItem}>
                                         <div className={styles.calendarItemLeftBar}>
@@ -193,7 +175,7 @@ export const CalendarList =  () => {
                                         <div className={styles.calendarItemRightBar}>
                                             <div className={styles.calendarEvents}>
                                                 {
-                                                    calendar.events.map(event => (
+                                                    calendar['events_calendars'].map(event => (
                                                         <div key={event.id} className={styles.eventItem} style={new Date(Date.now()) > new Date(event.start) ? {opacity: 0.3} : {opacity: 1}}>
                                                             <div className={styles.eventTitle}>
                                                                 <div style={{background: event.color}} className={styles.eventColor}></div>
@@ -250,13 +232,13 @@ export const CalendarList =  () => {
                     </div> : <></>
                     }
                     {
-                        isAuth ? <Pagination className={styles.pagination}
-                        activePage={calendars.currentPage}
-                        itemsCountPerPage={calendars.itemsCountPerPage}
-                        totalItemsCount={calendars.totalItems}
-                        pageRangeDisplayed={calendars.totalPages}
+                        isAuth ? (calendars.loading ? <></> : <Pagination className={styles.pagination}
+                        activePage={calendars.data.currentPage}
+                        itemsCountPerPage={calendars.data.itemsCountPerPage}
+                        totalItemsCount={calendars.data.totalItems}
+                        pageRangeDisplayed={calendars.data.totalPages}
                         onChange={handlePageChange} 
-                        /> : <></>
+                        />) : (<></>)
                     }
                 </div>
             </div>
