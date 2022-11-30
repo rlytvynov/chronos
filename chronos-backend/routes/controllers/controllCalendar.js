@@ -121,7 +121,7 @@ module.exports = {
                 calendar.title                
             );
 
-            reply.status(204).send();
+            reply.status(200).send({message: "Success"});
         } catch (error) {
             errorReplier(error, reply);
         }
@@ -138,7 +138,7 @@ module.exports = {
                 await users_calendars.set(payload.userId, payload.calendarId, 'user');
             });
 
-            reply.status(204).send();
+            reply.status(200).send({message: "Success"});
         } catch (error) {
             errorReplier(error, reply);
         }
@@ -167,7 +167,7 @@ module.exports = {
                 request.params.calendarId
             );
 
-            reply.status(204).send();
+            reply.status(200).send({message: "Success"});
         } catch (error) {
             errorReplier(error, reply);
         }
@@ -200,7 +200,7 @@ module.exports = {
             const users_calendars = new Users_Calendars(request.db.sequelize.models.users_calendars);
             await users_calendars.set(request.params.calendarId ,request.body.userId, request.body.role);
 
-            reply.status(204).send();
+            reply.status(200).send({message: "Success"});
         } catch (error) {
             errorReplier(error, reply);
         }
@@ -238,7 +238,7 @@ module.exports = {
                 });
             }
 
-            reply.status(204).send();
+            reply.status(200).send({message: "Success"});
         } catch (error) {
             errorReplier(error, reply);
         }

@@ -93,7 +93,7 @@ module.exports = {
                 login: request.user.login
             }, {expiresIn: jwtConfig.passToken.expiresIn}));
 
-            reply.status(204).send();    
+            reply.status(200).send({message: "Success"});    
         } catch (error) {
             errorReplier(error, reply);
         }
@@ -110,7 +110,7 @@ module.exports = {
                 await user.edit({password: payload.newPassword}, 
                 {login: payload.login});
             });
-            reply.status(204).send();
+            reply.status(200).send({message: "Success"});
         } catch (error) {
             errorReplier(error, reply);
         }
@@ -127,7 +127,7 @@ module.exports = {
                 await user.edit({email: payload.email}, 
                 {login: payload.login});
             });
-            reply.status(204).send();
+            reply.status(200).send({message: "Success"});
         } catch (error) {
             errorReplier(error, reply);
         }

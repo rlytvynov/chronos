@@ -5,13 +5,16 @@ module.exports = class Mailer {
         this.transporter = require('nodemailer').createTransport(config.transport);
     };
 
+    FrontAddress = 'http://localhost:3000';
+
+
     sendPasswordReset(email, token) {
         this.transporter.sendMail({
             from: config.from,
             to: email,
             subject: 'Password reset confirmation',
             html: `You can reset your password by this URL:
-            <a href="http://localhost:${config.PORT}/api/auth/passwordReset/${token}">\
+            <a href="${this.FrontAddress}/passwordReset/${token}">\
             Reset password! </a>`,
             }, (error, info) => {
             if (error) {
@@ -27,7 +30,7 @@ module.exports = class Mailer {
             to: email,
             subject: 'Email confirmation',
             html: `You can confirm your email by this URL: (button) \
-            <a href="http://localhost:${config.PORT}/api/auth/confirmEmail/${token}">\
+            <a href="${this.FrontAddress}/confirmEmail/${token}">\
             Confirm Email!</a>`,
         }, (error, info) => {
             if (error) {
@@ -44,7 +47,7 @@ module.exports = class Mailer {
             subject: 'Chronos calendar invitation',
             html: `${login} have invited you to their calendar: ${title} \n \
             Follow the link \
-            <a href="http://localhost:${config.PORT}/api/auth/confirmEmail/${token}">\
+            <a href="${this.FrontAddress}/acceptInvitation/calendar/${token}">\
             follow</a> to join the calendar and track common events.`,
         }, (error, info) => {
             if (error) {
@@ -61,7 +64,7 @@ module.exports = class Mailer {
             subject: 'Chronos event invitation',
             html: `${login} have invited you to their event: ${title} \n \
             Follow the link \
-            <a href="http://localhost:${config.PORT}/api/auth/confirmEmail/${token}">\
+            <a href="${this.FrontAddress}/acceptInvitation/event/${token}">\
             follow</a> to join the event.`,
         }, (error, info) => {
             if (error) {

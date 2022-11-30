@@ -102,7 +102,7 @@ module.exports = {
 
             await eventModel.set(data, event.id);
 
-            reply.status(204).send();
+            reply.status(200).send({message: "Success"});
         } catch (error) {
             errorReplier(error, reply);
         }
@@ -148,7 +148,7 @@ module.exports = {
                 event.title       
             );
 
-            reply.status(204).send();
+            reply.status(200).send({message: "Success"});
         } catch (error) {
             errorReplier(error, reply);
         }
@@ -165,7 +165,7 @@ module.exports = {
                 await events_calendars.set(payload.eventId, payload.calendarId);
             });
 
-            reply.status(204).send();
+            reply.status(200).send({message: "Success"});
         } catch (error) {
             errorReplier(error, reply);
         }
@@ -216,7 +216,7 @@ module.exports = {
                 });
             }
 
-            reply.status(204).send();
+            reply.status(200).send({message: "Success"});
         } catch (error) {
             errorReplier(error, reply);
         }
@@ -243,7 +243,7 @@ module.exports = {
                 calendarId: request.params.calendarId
             });
 
-            reply.status(204).send();
+            reply.status(200).send({message: "Success"});
         } catch (error) {
             errorReplier(error, reply);
         }
@@ -262,7 +262,7 @@ module.exports = {
                 throw new CustomError(1035);
             await eventModel.delete({id: request.params.eventId});
 
-            reply.status(204).send();
+            reply.status(200).send({message: "Success"});
         } catch (error) {
             errorReplier(error, reply);
         }
