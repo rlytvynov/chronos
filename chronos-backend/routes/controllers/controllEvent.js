@@ -36,8 +36,7 @@ module.exports = {
                 request.user.id,
                 request.params.calendarId
             );
-            
-            console.log(request.params);
+
             if(!calendar) throw new CustomError(1017);
 
             const eventModel = new Event(request.db.sequelize.models.events);
@@ -47,7 +46,6 @@ module.exports = {
                 request.params.leftBorder,
                 request.params.rightBorder
             );
-
             reply.status(200).send(events);
         } catch (error) {
             errorReplier(error, reply);
@@ -179,8 +177,6 @@ module.exports = {
             idChecker(request.params.calendarId, 1023);
             idChecker(request.body.targetId, 1025);
             idChecker(request.user.id, 1006);
-
-            console.log(request.body.targetId);
 
             const calendarModel = new Calendar(request.db.sequelize.models.calendars);
             const [calendar] = await calendarModel.get(

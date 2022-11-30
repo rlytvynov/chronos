@@ -52,7 +52,6 @@ module.exports = class Calendar extends Entity{
                     include:[{
                         model: events,
                         as: 'event',
-                        attributes: [],
                         raw: true
                     }]
                 }
