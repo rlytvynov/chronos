@@ -45,6 +45,6 @@ module.exports = class DataBase {
     }
 
     async __syncModels() {
-        await this.sequelize.sync({ alter: false });
+        await this.sequelize.sync({ alter: true });
     }
 }

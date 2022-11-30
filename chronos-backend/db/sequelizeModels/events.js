@@ -33,11 +33,11 @@ module.exports = function(sequelize, DataTypes) {
       default: config.colorDef,
       allowNull: false
     },
-    startsAt: {
+    start: {
       type: DataTypes.DATE,
       allowNull: false
     },
-    endsAt: {
+    end: {
       type: DataTypes.DATE,
       allowNull: false
     }

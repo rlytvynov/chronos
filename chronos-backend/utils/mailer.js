@@ -52,5 +52,22 @@ module.exports = class Mailer {
                 return error;
             }
         });
+    };
+
+    sendInviteEvent(email, token, login, title) {
+        this.transporter.sendMail({
+            from: config.from,
+            to: email,
+            subject: 'Chronos event invitation',
+            html: `${login} have invited you to their event: ${title} \n \
+            Follow the link \
+            <a href="http://localhost:${config.PORT}/api/auth/confirmEmail/${token}">\
+            follow</a> to join the event.`,
+        }, (error, info) => {
+            if (error) {
+                console.log(error);
+                return error;
+            }
+        });
     }
 }

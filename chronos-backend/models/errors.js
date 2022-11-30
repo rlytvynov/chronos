@@ -81,6 +81,9 @@ module.exports = class UserErrors extends Error {
             case 1035:
                 this.message = 'Only event author can delet it!'
                 break;
+            case 1036:
+                this.message = 'User already has this event'
+                break;
             default:
                 this.message = 'Server Errors: undefined error!';
         }

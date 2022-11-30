@@ -8,6 +8,7 @@ module.exports = function (server, opts, done) {
     
     
     server.post('/api/events/calendar=:calendarId', controller.set);
+    server.post('/api/events/event=:eventId/invite/user=:userId', controller.invite);
 
     server.patch('/api/events/event=:eventId', controller.edit);
     server.patch('/api/events/calendar=:calendarId-event=:eventId/move', controller.move);

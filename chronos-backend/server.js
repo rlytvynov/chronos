@@ -79,10 +79,15 @@ server.addHook('onRequest', function(request, reply, done) {
     
     const token = request.headers.authorization
 
-    if (!token){
+    /*if (!token){
         reply.status(403).send({ message: 'No access' });
         return done();
-    }
+    }*/
+    // for postman get user from refreshToken
+    request.jwt.verify(request.cookies.refreshToken, (error, payload) => {
+        if (error) throw error;
+        request.user = payload;
+    })
     
     try {
         request.jwt.verify(token, (error, payload) => {
