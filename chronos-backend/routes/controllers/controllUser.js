@@ -115,7 +115,7 @@ module.exports = {
                     login: request.user.login
                 }, jwtConfig.passToken.secret, jwtConfig.passToken.sign));
             }
-            reply.status(204).send();
+            reply.status(200).send({message: "Success"});
         } catch (error) {
             errorReplier(error, reply);
         }
@@ -141,7 +141,7 @@ module.exports = {
             }
             await Pump(data.file, Fs.createWriteStream(avatarPath));
 
-            reply.status(204).send();
+            reply.status(200).send({message: "Success"});
         } catch (error) {
             errorReplier(error, reply);
         }

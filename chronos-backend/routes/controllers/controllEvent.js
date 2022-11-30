@@ -102,7 +102,7 @@ module.exports = {
 
             await eventModel.set(data, event.id);
 
-            reply.status(204).send();
+            reply.status(200).send({message: "Success"});
         } catch (error) {
             errorReplier(error, reply);
         }
@@ -148,7 +148,7 @@ module.exports = {
                 event.title       
             );
 
-            reply.status(204).send();
+            reply.status(200).send({message: "Success"});
         } catch (error) {
             errorReplier(error, reply);
         }
@@ -165,7 +165,7 @@ module.exports = {
                 await events_calendars.set(payload.eventId, payload.calendarId);
             });
 
-            reply.status(204).send();
+            reply.status(200).send({message: "Success"});
         } catch (error) {
             errorReplier(error, reply);
         }
@@ -216,7 +216,7 @@ module.exports = {
                 });
             }
 
-            reply.status(204).send();
+            reply.status(200).send({message: "Success"});
         } catch (error) {
             errorReplier(error, reply);
         }
@@ -243,7 +243,7 @@ module.exports = {
                 calendarId: request.params.calendarId
             });
 
-            reply.status(204).send();
+            reply.status(200).send({message: "Success"});
         } catch (error) {
             errorReplier(error, reply);
         }
@@ -256,18 +256,11 @@ module.exports = {
 
             const eventModel = new Event(request.db.sequelize.models.events);
             const event = await eventModel.get(request.params.eventId);
-            
 
             if(!event) throw new CustomError(1023);
             else if(event.adminId != request.user.id)
                 throw new CustomError(1035);
-
-            try {
-                await eventModel.delete({id: request.params.eventId});
-                reply.status(200).send({message: 'Event has been deleted'});
-            } catch (error) {
-                console.log(error)
-            }
+            reply.status(200).send({message: "Success"});
         } catch (error) {
             errorReplier(error, reply);
         }
