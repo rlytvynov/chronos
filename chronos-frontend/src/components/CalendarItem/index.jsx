@@ -41,6 +41,7 @@ export const CalendarItem =  () => {
     const getAllEvents = (calendarID) => {
         api.get(`events/calendar=${calendarID}`)
             .then((response) => {
+                console.log(response.data)
                  setEvents({
                      loading: false,
                      data: response.data
@@ -90,6 +91,16 @@ export const CalendarItem =  () => {
         console.log(arg)
         handleFormArgs(arg)
         modalAddEvent.handleOpen()
+    }
+
+    const handleCalendarDelete = () => {
+        api.delete(`calendars/${params.id}`)
+            .then(response => {
+                alert(response.data.message)
+            })
+            .catch(error => {
+                alert(error)
+            })
     }
 
     return(
@@ -146,7 +157,7 @@ export const CalendarItem =  () => {
             />
             <div className="callendarButtons">
                 <div><button className="addUser"><FontAwesomeIcon icon = {faUserPlus}/> Add User</button></div>
-                <div><button className="deleteCalendar"><FontAwesomeIcon icon = {faBucket}/> Delete</button></div>
+                <div><button onClick={handleCalendarDelete} className="deleteCalendar"><FontAwesomeIcon icon = {faBucket}/> Delete</button></div>
             </div>
         </div>
     )

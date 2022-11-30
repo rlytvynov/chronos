@@ -36,7 +36,7 @@ CREATE TABLE events(
     start DATETIME NOT NULL,
     end DATETIME NOT NULL,
     
-    FOREIGN KEY (adminid)
+    FOREIGN KEY (adminId)
 		REFERENCES users(id)
         ON DELETE SET NULL
 );

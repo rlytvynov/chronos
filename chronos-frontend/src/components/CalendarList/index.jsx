@@ -177,10 +177,10 @@ export const CalendarList =  () => {
                                             <div className={styles.calendarEvents}>
                                                 {
                                                     calendar['events_calendars'].map(event => (
-                                                        <div key={event.id} className={styles.eventItem} style={new Date(Date.now()) > new Date(event.start) ? {opacity: 0.3} : {opacity: 1}}>
+                                                        <div key={event.eventId} className={styles.eventItem} style={new Date(Date.now()) > new Date(event.start) ? {opacity: 0.3} : {opacity: 1}}>
                                                             <div className={styles.eventTitle}>
-                                                                <div style={{background: event.color}} className={styles.eventColor}></div>
-                                                                <div className={styles.eventName}>{event.title}</div>
+                                                                <div style={{background: event.event.color}} className={styles.eventColor}></div>
+                                                                <div className={styles.eventName}>{event.event.title}</div>
                                                             </div>
                                                             <div className={styles.eventTime}>
                                                                 {
@@ -190,23 +190,23 @@ export const CalendarList =  () => {
                                                                         // console.log(new Date(item.start).getFullYear())
                                                                         let arr = []
                                                                         if(dateNow.getFullYear() !== (new Date(event.start)).getFullYear()) {
-                                                                            arr.push((new Date(event.start)).getDate())
-                                                                            arr.push((new Date(event.start)).getMonth() + 1)
-                                                                            arr.push((new Date(event.start)).getFullYear())
+                                                                            arr.push((new Date(event.event.start)).getDate())
+                                                                            arr.push((new Date(event.event.start)).getMonth() + 1)
+                                                                            arr.push((new Date(event.event.start)).getFullYear())
                                                                         } else {
-                                                                            const day = (new Date(event.start)).getDate()
-                                                                            const month = (new Date(event.start)).getMonth() + 1
-                                                                            const hours = (new Date(event.start)).getHours()
-                                                                            const minutes = (new Date(event.start)).getMinutes()
+                                                                            const day = (new Date(event.event.start)).getDate()
+                                                                            const month = (new Date(event.event.start)).getMonth() + 1
+                                                                            const hours = (new Date(event.event.start)).getHours()
+                                                                            const minutes = (new Date(event.event.start)).getMinutes()
                                 
                                                                             if(dateNow.getMonth() + 1 !== month) {
                                                                                 arr.push(day)
-                                                                                arr.push((new Date(event.start)).getMonth()+1)
+                                                                                arr.push((new Date(event.event.start)).getMonth()+1)
                                                                             } else {
                                                                                 let str = ''
                                                                                 if(dateNow.getDate() !== day) {
                                                                                     arr.push(day)
-                                                                                    arr.push((new Date(event.start)).getMonth() + 1)
+                                                                                    arr.push((new Date(event.event.start)).getMonth() + 1)
                                                                                 } else {
                                                                                     str = hours + ':' + minutes + '(today)'
                                                                                     arr.push(str)

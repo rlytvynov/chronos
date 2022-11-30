@@ -238,7 +238,7 @@ module.exports = {
                 });
             }
 
-            reply.status(204).send();
+            reply.status(200).send({message: 'Calendar has been deleted'});
         } catch (error) {
             errorReplier(error, reply);
         }

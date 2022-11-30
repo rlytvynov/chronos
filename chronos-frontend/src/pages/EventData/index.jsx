@@ -1,9 +1,9 @@
-import React, { useState }  from "react";
+import React, { useEffect, useState }  from "react";
 import { useForm } from 'react-hook-form';
 import styles from "./EventData.module.scss"
-import './EventData.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import api from "../../api/api";
 
 
 export const EventData = (props) => {
@@ -14,26 +14,36 @@ export const EventData = (props) => {
 
 
 // eslint-disable-next-line
-    const [event, setEvent] = useState({ 
-            id: props.id,
-            title: 'Meeting with friends', 
-            type: 'arrangement',
-            description: 'sdlcmnldksmckdsmckl dsklcmdklsmcds cmnsdklnmcds lkcnsdkl',
-            color: 'lightgreen',
-            start: '2022-11-18T10:30',
-            end: '2022-11-18T11:30'
-        }
-    )
+    const [event, setEvent] = useState({loading: true})
 
-    if(!props.open) {
-        return
-    } else {
-        console.log(props.id)
+    const getEvent = (eventID) => {
+        api.get(`events/event=${eventID}`)
+            .then(response => {
+                setEvent({
+                    loading: false,
+                    data: response.data
+                })
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
+    useEffect(()=>{
+        if(props.id) {
+            getEvent(props.id)
+        }
+    }, [props.id])
 
 
-    const handleSubmit = (values) => {
+    const handleSubmit = () => {
+        api.delete(`events/event=${props.id}`)
+            .then(response => {
+                alert(response.data.message)
+            })
+            .catch(error => {
+                alert(error.message)
+            })
         reset()
         props.handleClose()
     }
@@ -45,18 +55,22 @@ export const EventData = (props) => {
 
     return(
         <div className={`${styles.eventForm} ${props.open ? styles.active : styles.unactive}`}>
-            <form className={styles.eventFormCenter} onSubmit={handleSubmit}>
-                <div className={styles.crossButton} onClick={handleCloseSettings}><FontAwesomeIcon icon={faXmark}/></div>
-                <div className={styles.titleBlock}>
-                    <div className={styles.title}>
-                        <div>{event.title}</div>
-                        <div className={styles.type}>{event.type}</div>
+            {
+                event.loading ? 
+                <h2>Loading...</h2> : 
+                <form className={styles.eventFormCenter} onSubmit={handleSubmit}>
+                    <div className={styles.crossButton} onClick={handleCloseSettings}><FontAwesomeIcon icon={faXmark}/></div>
+                    <div className={styles.titleBlock}>
+                        <div className={styles.title}>
+                            <div>{event.data.title}</div>
+                            <div className={styles.type}>{event.data.type}</div>
+                        </div>
+                        <div style={{backgroundColor: event.data.color}} className={styles.color}></div>
                     </div>
-                    <div id={event.color} className={styles.color}></div>
-                </div>
-                <div className={styles.description}>{event.description}</div>
-                <div><input type="submit" value="Delete" /></div>
-            </form>
+                    <div className={styles.description}>{event.data.description}</div>
+                    <div><input type="submit" value="Delete" /></div>
+                </form>
+            }
         </div>
     )
 }

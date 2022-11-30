@@ -67,10 +67,10 @@ export const EventForm = (props) => {
                 </div>
                 <div className={styles.dateField}></div>
                 <div className={styles.colorsField}>
-                    <div id={styles.red} className={styles.inputColor}><input type="radio" value='red'{...register('color')}/></div>
-                    <div id={styles.violet} className={styles.inputColor}><input type="radio" value='violet'{...register('color')}/></div>
-                    <div id={styles.pink} className={styles.inputColor}><input type="radio" value='pink'{...register('color')}/></div>
-                    <div id={styles.lightgreen} className={styles.inputColor}><input type="radio" value='lightgreen'{...register('color')}/></div>
+                    <div id={styles.red} className={styles.inputColor}><input type="radio" value='#FF0000'{...register('color')}/></div>
+                    <div id={styles.violet} className={styles.inputColor}><input type="radio" value='#7000FF'{...register('color')}/></div>
+                    <div id={styles.pink} className={styles.inputColor}><input type="radio" value='#EB00FF'{...register('color')}/></div>
+                    <div id={styles.lightgreen} className={styles.inputColor}><input type="radio" value='#00FFD1'{...register('color')}/></div>
                 </div>
                 <div className={styles.submitField}>
                     <div className='inputEventData'><input type="submit" value="Submit"/></div>
