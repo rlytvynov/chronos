@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import styles from "./EventForm.module.scss"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import api from "../../api/api";
 
 export const EventForm = (props) => {
 
@@ -15,18 +16,20 @@ export const EventForm = (props) => {
     const onSubmit = (values) => {
         const newEvent = {
             title: values.title,
+            description: values.description,
             type: values.type,
             color: values.color,
             start: values.dateFrom + 'T' + values.start,
             end: values.dateTo + 'T' + values.end,
         }
-        // api.post('events/calendar=:calendarId', values)
-        // .then (function(response) {
-        //     alert(response.data.message)
-        // })
-        // .catch(function(error){
-        //     console.log(error);
-        // }) 
+        api.post(`events/calendar=${props.calendarID}`, newEvent)
+        .then (function(response) {
+            alert(response.data.message)
+        })
+        .catch(function(error){
+            console.log(error.meassage);
+        }) 
+
         console.log(newEvent)
         reset()
         props.handleClose()

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useCallback} from "react";
 import "./CalendarItem.css"
 import {EventForm} from '../../pages/EventForm'
 import { EventData } from "../../pages/EventData";
@@ -10,29 +10,51 @@ import interactionPlugin from "@fullcalendar/interaction"
 import enLocale from '@fullcalendar/core/locales/en-gb';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBucket, faUserPlus } from "@fortawesome/free-solid-svg-icons";
-import { useCallback } from "react";
+import { useParams } from 'react-router-dom';
+import { useEffect } from "react";
+import api from "../../api/api";
 
 export const CalendarItem =  () => {
     
+    const params = useParams();
     // eslint-disable-next-line
-    const [events, setEvents] = useState([
-        { 
-            id: 1,
-            title: 'event', 
-            type: 'arrangement',
-            color: 'red',
-            start: '2022-11-18T10:30',
-            end: '2022-11-18T11:30'
-        },
-        { 
-            id: 2,
-            title: 'arrangemet', 
-            type: 'task',
-            color: 'green',
-            start: '2022-11-18T13:30:00',
-            end: '2022-11-18T15:30:00',
-        }
-    ])
+    // const [events, setEvents] = useState([
+    //     { 
+    //         id: 1,
+    //         title: 'event', 
+    //         type: 'arrangement',
+    //         color: 'red',
+    //         start: '2022-11-18T10:30',
+    //         end: '2022-11-18T11:30'
+    //     },
+    //     { 
+    //         id: 2,
+    //         title: 'arrangemet', 
+    //         type: 'task',
+    //         color: 'green',
+    //         start: '2022-11-18T13:30:00',
+    //         end: '2022-11-18T15:30:00',
+    //     }
+    // ])
+    const [events, setEvents] = useState({loading: true, data: []})
+
+    const getAllEvents = (calendarID) => {
+        api.get(`events/calendar=${calendarID}`)
+            .then((response) => {
+                 setEvents({
+                     loading: false,
+                     data: response.data
+                })
+                console.log(response.data)
+            })
+            .catch((error) => {
+                console.log(error.message)
+            })
+    }
+
+    useEffect(() => {
+        getAllEvents(params.id)
+    }, [params.id])
     
     const modalAddEvent = useOpenModal(false)
     const modalInfoEvent = useOpenModal(false)
@@ -73,7 +95,9 @@ export const CalendarItem =  () => {
 
     return(
         <div className='calendar-item'>
-            <FullCalendar
+            {
+                events.loading ? <h2>Loading...</h2> :
+                <FullCalendar
                 locale={enLocale}
                 plugins={[ dayGridPlugin, timeGridPlugin, interactionPlugin]}
                 selectable={true}
@@ -98,7 +122,7 @@ export const CalendarItem =  () => {
                     minute: '2-digit',
                     hour12: false
                 }}
-                events={events}
+                events={events.data}
                 eventTimeFormat={{ // like '14:30:00'
                     hour: '2-digit',
                     minute: '2-digit',
@@ -109,10 +133,12 @@ export const CalendarItem =  () => {
                 height="auto"
                 allDaySlot={false}
             />
+            }
             <EventForm 
                 open={modalAddEvent.isOpen}
                 handleClose={modalAddEvent.handleClose}
                 formArgs = {formArgs}
+                calendarID = {params.id}
             />
             <EventData
                 open={modalInfoEvent.isOpen}
