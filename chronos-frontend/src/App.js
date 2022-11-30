@@ -4,6 +4,7 @@ import { Home } from "./components/Home"
 import { Account } from "./components/Account"
 import { Login } from "./components/Login";
 import { Register } from "./components/Registration";
+import { Activation } from "./components/Activation";
 
 import { CalendarList} from "./components/CalendarList"
 import { CalendarItem } from "./components/CalendarItem"
@@ -38,8 +39,7 @@ function App() {
 
                 <Route exact path='/login' element={ <Login/> } />
                 <Route exact path='/register' element={ <Register/> } />
-                {/*<Route exact path='/activation/:activationToken' element={ <Activation/> } /> */}
-
+                <Route exact path='/confirmEmail/:activationToken' element={ <Activation/> } />
 
                 <Route exact path='/calendars' element={ <CalendarList/> } />
                 <Route exact path='/calendars/:id' element={ <CalendarItem/> } />

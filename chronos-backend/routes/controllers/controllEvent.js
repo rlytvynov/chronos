@@ -257,9 +257,16 @@ module.exports = {
             const eventModel = new Event(request.db.sequelize.models.events);
             const event = await eventModel.get(request.params.eventId);
 
-            if(!event) throw new CustomError(1023);
-            else if(event.adminId != request.user.id)
+            if(!event) {
+                throw new CustomError(1023);
+            } else if (event.adminId != request.user.id) {
                 throw new CustomError(1035);
+            }
+            try {
+                await eventModel.delete({id: request.params.eventId});
+            } catch (error) {
+                console.log(error)
+            }
             reply.status(200).send({message: "Success"});
         } catch (error) {
             errorReplier(error, reply);

@@ -42,7 +42,7 @@ export const EventData = (props) => {
                 alert(response.data.message)
             })
             .catch(error => {
-                alert(error.message)
+                alert(error)
             })
         reset()
         props.handleClose()

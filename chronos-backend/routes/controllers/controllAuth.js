@@ -124,8 +124,10 @@ module.exports = {
             request.jwt.verify(token, async (err, payload) => {
                 if(err) throw new CustomError(1024);
                 const user = new User(request.db.sequelize.models.users);
-                await user.edit({email: payload.email}, 
-                {login: payload.login});
+                await user.edit(
+                    {email: payload.email}, 
+                    {login: payload.login}
+                );
             });
             reply.status(200).send({message: "Success"});
         } catch (error) {
