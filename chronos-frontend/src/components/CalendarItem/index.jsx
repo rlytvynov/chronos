@@ -45,7 +45,6 @@ export const CalendarItem =  () => {
                      loading: false,
                      data: response.data
                 })
-                console.log(response.data)
             })
             .catch((error) => {
                 console.log(error.message)

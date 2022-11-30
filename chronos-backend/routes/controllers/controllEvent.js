@@ -79,7 +79,7 @@ module.exports = {
             const events_calendars = new Events_Calendars(request.db.sequelize.models.events_calendars);
             await events_calendars.set(event.id, request.params.calendarId);
 
-            reply.status(204).send();
+            reply.status(200).send({message: "Success!"});
         } catch (error) {
             errorReplier(error, reply);
         }

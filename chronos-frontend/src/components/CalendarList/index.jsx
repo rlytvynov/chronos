@@ -49,11 +49,11 @@ export const CalendarList =  () => {
     const getAllCalendars = () => {
         api.get('calendars-events')
         .then(function(response) {
-            console.log(response)
             setCalendars({
                 loading: false,
                 data: response.data
             })
+            console.log(response.data)
         })
         .catch(function(error) {
             console.log(error.message)
@@ -84,6 +84,7 @@ export const CalendarList =  () => {
                     loading: false,
                     data: response.data
                 })
+                console.log(response.data)
             })
             .catch(function (error) {
                 console.log(error);
