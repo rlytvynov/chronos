@@ -141,6 +141,7 @@ module.exports = {
             const mailer = new Mailer();
             mailer.sendInviteEvent(pawnInvited.email,
                 request.jwt.sign({
+                    userId: pawnInvited.id,
                     calendarId: pawnInvited.defaultCalendarId,
                     eventId: request.params.eventId
                 }),
@@ -158,9 +159,17 @@ module.exports = {
         try {
             const {token} = request.params;
             if(!token) throw new CustomError(-999);
+            idChecker(request.user.id, 1006);
 
             request.jwt.verify(token, async (err, payload) => {
-                if(err) throw new CustomError(1024);
+                if(err) {
+                    errorReplier(new CustomError(1024), reply);
+                    return;
+                }
+                if(payload.userId != request.user.id){
+                    errorReplier(new CustomError(1009), reply);
+                    return;
+                }
                 const events_calendars = new Events_Calendars(request.db.sequelize.models.events_calendars);
                 await events_calendars.set(payload.eventId, payload.calendarId);
             });
