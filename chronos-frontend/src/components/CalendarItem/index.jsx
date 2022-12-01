@@ -2,6 +2,7 @@ import React, {useState, useCallback} from "react";
 import "./CalendarItem.css"
 import {EventForm} from '../../pages/EventForm'
 import { EventData } from "../../pages/EventData";
+import { InviteForm } from "../../pages/InviteForm";
 import { useOpenModal } from "../../utils/stateEventCreationForm";
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -58,6 +59,7 @@ export const CalendarItem =  () => {
     
     const modalAddEvent = useOpenModal(false)
     const modalInfoEvent = useOpenModal(false)
+    const modalInviteForm = useOpenModal(false)
 
     const [formArgs, setFormArgs] = useState({
         startStr: '00:00',
@@ -70,6 +72,10 @@ export const CalendarItem =  () => {
         console.log(arg.event)
         modalInfoEvent.handleData(arg.event)
         modalInfoEvent.handleOpen()  
+    }
+
+    const handleInvetation = () => {
+        modalInviteForm.handleOpen()
     }
 
     const handleFormArgs = useCallback((arg) => setFormArgs({
@@ -155,8 +161,12 @@ export const CalendarItem =  () => {
                 handleClose={modalInfoEvent.handleClose}
                 id={modalInfoEvent.extraData.id}
             />
+            <InviteForm
+                open={modalInviteForm.isOpen}
+                handleClose={modalInviteForm.handleClose}
+            />
             <div className="callendarButtons">
-                <div><button className="addUser"><FontAwesomeIcon icon = {faUserPlus}/> Add User</button></div>
+                <div><button onClick={handleInvetation} className="addUser"><FontAwesomeIcon icon = {faUserPlus}/> Add User</button></div>
                 <div><button onClick={handleCalendarDelete} className="deleteCalendar"><FontAwesomeIcon icon = {faBucket}/> Delete</button></div>
             </div>
         </div>

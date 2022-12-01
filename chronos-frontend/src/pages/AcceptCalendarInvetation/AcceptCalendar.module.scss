@@ -1,0 +1,33 @@
+@import "../../colors.scss";
+
+.acceptCPage {
+    max-width: 600px;
+    margin: 20vh auto;
+    border: 2px solid #393E46;
+    border-radius: 30px;
+
+    .info {
+        max-width: 500px;
+        margin: 10px auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .circle {
+            width: 300px;
+            height: 300px;
+            background: #6D9886;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+
+            img {
+                width: 230px;
+                height: 230px;
+            }
+            margin-bottom: 10px;
+        }
+    }
+}

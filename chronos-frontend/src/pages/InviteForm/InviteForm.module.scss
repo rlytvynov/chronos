@@ -1,0 +1,52 @@
+@import "../../colors.scss";
+
+.inviteForm {
+    &.unactive{
+        display: none;
+    }
+
+    &.active{
+        position: fixed;
+        display: block;
+        background-color: rgba(0, 0, 0, .5);
+        min-height: 100vh;
+        width: 100%;
+        border: none;
+        border-radius: 15px;
+    
+        top: 50vh;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 100;
+    }
+
+    .inviteFormCenter {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translateY(-50%) translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: fit-content;
+        background-color: rgba(255, 255, 255, 1);
+        padding: 20px;
+        border: none;
+        border-radius: 15px;
+        z-index: 10000;
+
+        .crossButton {
+            align-self: flex-end;
+            margin-bottom: 10px;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+    .found, .notFound {
+        text-align: center;
+        text-transform: uppercase;
+        font-size: 20px;
+    }
+}
