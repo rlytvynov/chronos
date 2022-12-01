@@ -17,7 +17,7 @@ export const InviteForm = (props) => {
         loading: true,
         found: false
     })
-    const success = true;
+    //const success = true;
 
     const handleCloseSettings = (values) => {
         setUserFound({
@@ -30,34 +30,34 @@ export const InviteForm = (props) => {
 
     const onSubmit = (values) => {
 
-    //   api.post(`calendars/${params.id}/invite/${values.userLogin}`)
-    //     .then(response => {
-    //         setUserFound({
-    //             loading: false,
-    //             found: true,
-    //         })
-    //     })
-    //     .catch(error => {
-    //         setUserFound({
-    //             loading: false,
-    //             found: false,
-    //         })
-    //     })
+      api.post(`calendars/${params.id}/invite/${values.userLogin}`)
+        .then(response => {
+            setUserFound({
+                loading: false,
+                found: true,
+            })
+        })
+        .catch(error => {
+            setUserFound({
+                loading: false,
+                found: false,
+            })
+        })
 
         
-        console.log(values.userLogin)
-        console.log(params.id)
-        if(success) {
-            setUserFound({
-                loading: false,
-                found: true
-            })
-        } else {
-            setUserFound({
-                loading: false,
-                found: false
-            })
-        }
+        // console.log(values.userLogin)
+        // console.log(params.id)
+        // if(success) {
+        //     setUserFound({
+        //         loading: false,
+        //         found: true
+        //     })
+        // } else {
+        //     setUserFound({
+        //         loading: false,
+        //         found: false
+        //     })
+        // }
         console.log(values)
         reset()
     }
@@ -78,7 +78,7 @@ export const InviteForm = (props) => {
                         <div className={styles.found}>
                             <FontAwesomeIcon icon={faUserCheck} color='lightgreen'/>
                             <br />
-                            Invetation has been sended
+                            Invitation has been sent!
                         </div>
                     </div>
                     :

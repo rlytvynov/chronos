@@ -84,10 +84,11 @@ module.exports = {
         try {
             idChecker(request.params.calendarId, 1023);
             idChecker(request.user.id, 1006);
-            idChecker(request.params.userId, 1006);
+            if(!request.params.login) throw new CustomError(1023);
+            insertionProtector({invitedLogin: request.params.login});
 
             const user = new User(request.db.sequelize.models.users);
-            const pawnInvited = await user.get({id: request.params.userId}, true);
+            const pawnInvited = await user.get({login: request.params.login}, true);
             if (!pawnInvited) throw new CustomError(1014);
 
             const calendarModel = new Calendar(request.db.sequelize.models.calendars);
@@ -97,10 +98,10 @@ module.exports = {
                 request.params.calendarId, 
                 true
             );
-
+            
             if(!calendar)
                 throw new CustomError(1023);
-            else if(calendar.role == 'user')
+            else if(calendar.users_calendars[0].role == 'user')
                 throw new CustomError(1015);
 
             const users_calendars = new Users_Calendars(request.db.sequelize.models.users_calendars);
@@ -131,9 +132,17 @@ module.exports = {
         try {
             const {token} = request.params;
             if(!token) throw new CustomError(-999);
+            idChecker(request.user.id, 1006);
 
             request.jwt.verify(token, async (err, payload) => {
-                if(err) throw new CustomError(1024);
+                if(err) {
+                    errorReplier(new CustomError(1024), reply);
+                    return;
+                }
+                if(payload.userId != request.user.id){
+                    errorReplier(new CustomError(1009), reply);
+                    return;
+                }
                 const users_calendars = new Users_Calendars(request.db.sequelize.models.users_calendars);
                 await users_calendars.set(payload.userId, payload.calendarId, 'user');
             });
@@ -160,7 +169,7 @@ module.exports = {
 
             if (!calendar)
                 throw new CustomError(1023)
-            if (calendar.role == 'user')
+            if (calendar.users_calendars[0].role == 'user')
                 throw new CustomError(1012);
             await calendarModel.set(
                 {title: title, description: description}, 

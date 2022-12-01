@@ -47,7 +47,7 @@ module.exports = class Mailer {
             subject: 'Chronos calendar invitation',
             html: `${login} have invited you to their calendar: ${title} \n \
             Follow the link \
-            <a href="${this.FrontAddress}/acceptInvitation/calendar/${token}">\
+            <a href="${this.FrontAddress}/calendars/acceptInvitation/${token}">\
             follow</a> to join the calendar and track common events.`,
         }, (error, info) => {
             if (error) {
@@ -64,7 +64,7 @@ module.exports = class Mailer {
             subject: 'Chronos event invitation',
             html: `${login} have invited you to their event: ${title} \n \
             Follow the link \
-            <a href="${this.FrontAddress}/acceptInvitation/event/${token}">\
+            <a href="${this.FrontAddress}/events/acceptInvitation/${token}">\
             follow</a> to join the event.`,
         }, (error, info) => {
             if (error) {

@@ -9,23 +9,24 @@ export const AcceptCalendarInvetation = () => {
     const params = useParams()
     const [state, setState] = useState({loading: false, success: true, message: 'Success'})
 
-    // useEffect(() => {
-    //     api.get(`calendars/acceptInvitation/${params.token}`)
-    //         .then(response => {
-    //             setState({
-    //                 loading: false,
-    //                 success: true,
-    //                 message: response.data.message
-    //             })
-    //         })
-    //         .catch(error => {
-    //             setState({
-    //                 loading: false,
-    //                 success: false,
-    //                 message: error.message
-    //             })
-    //         })
-    // }, [params.token])
+    useEffect(() => {
+        api.get(`calendars/acceptInvitation/${params.token}`)
+            .then(response => {
+                setState({
+                    loading: false,
+                    success: true,
+                    message: response.data.message
+                })
+            })
+            .catch(error => {
+                console.log(error);
+                setState({
+                    loading: false,
+                    success: false,
+                    message: error.response.data.message
+                })
+            })
+    }, [params.token])
 
     return (
         <div className={styles.acceptCPage}>

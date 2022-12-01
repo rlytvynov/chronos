@@ -27,6 +27,9 @@ module.exports = class UserErrors extends Error {
             case 1008:
                 this.message = 'You need to choose a different email';
                 break;
+            case 1009:
+                this.message = 'Invitation was sent to another user, please log in from a different account!'
+                break;
             // VVV Calendar errors (011 - 020) VVV
             case 1011:
                 this.message = 'You cannot delete your default calendar'
