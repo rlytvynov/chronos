@@ -4,7 +4,6 @@ import styles from "./InviteFormEvent.module.scss"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCheck, faUserXmark, faXmark } from '@fortawesome/free-solid-svg-icons';
 import api from "../../../api/api";
-import { useParams } from "react-router-dom";
 
 export const InviteFormEvent = (props) => {
     const {
@@ -12,7 +11,7 @@ export const InviteFormEvent = (props) => {
         handleSubmit,
         reset
     } = useForm();
-    const params = useParams()
+
     const[userFound, setUserFound] = useState({
         loading: true,
         found: false
