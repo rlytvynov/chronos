@@ -29,7 +29,7 @@ module.exports = class DataBase {
         calendars.hasMany(users, { as: "users", foreignKey: "defaultCalendarId"});
         users_calendars.belongsTo(calendars, { as: "calendar", foreignKey: "calendarId", onDelete:'CASCADE'});
         calendars.hasMany(users_calendars, { as: "users_calendars", foreignKey: "calendarId"});
-        events_calendars.belongsTo(events, { as: "event", foreignKey: "eventId"});
+        events_calendars.belongsTo(events, { as: "event", foreignKey: "eventId", onDelete:'CASCADE'});
         events.hasMany(events_calendars, { as: "events_calendars", foreignKey: "eventId"});
         events.belongsTo(users, { as: "admin", foreignKey: "adminId"});
         users.hasMany(events, { as: "events", foreignKey: "adminId"});
@@ -45,6 +45,6 @@ module.exports = class DataBase {
     }
 
     async __syncModels() {
-        await this.sequelize.sync({ alter: false });
+        await this.sequelize.sync({ alter: true });
     }
 }
