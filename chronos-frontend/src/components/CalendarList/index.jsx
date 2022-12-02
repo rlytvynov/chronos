@@ -16,7 +16,36 @@ import api from "../../api/api";
 export const CalendarList =  () => {
     const isAuth = useSelector(selectIsAuth)
 
-    const [events, setEvents] = useState([
+    // const [events, setEvents] = useState([
+    //     {
+    //         id: 1,
+    //         title: 'Jopa',
+    //         color: 'red',
+    //         start: '2023-12-28T10:30:00'
+    //     },
+    //     {
+    //         id: 2,
+    //         title: 'Bla Bla',
+    //         color: 'yellow',
+    //         start: '2022-11-28T10:30:00'
+    //     },
+    //     {
+    //         id: 3,
+    //         title: 'Hui',
+    //         color: 'blue',
+    //         start: '2022-11-21T10:30:00'
+    //     },
+    //     {
+    //         id: 4,
+    //         title: 'Kavun',
+    //         color: 'red',
+    //         start: '2022-11-21T11:25:00'
+    //     },
+    // ])
+
+    // eslint-disable-next-line
+    const [calendars , setCalendars] = useState({loading: true})
+    const [events, setEvents] = useState({loading: false, data: [
         {
             id: 1,
             title: 'Jopa',
@@ -41,10 +70,7 @@ export const CalendarList =  () => {
             color: 'red',
             start: '2022-11-21T11:25:00'
         },
-    ])
-
-    // eslint-disable-next-line
-    const [calendars , setCalendars] = useState({loading: true})
+    ]})
 
     const getAllCalendars = () => {
         api.get('calendars-events')
@@ -60,8 +86,23 @@ export const CalendarList =  () => {
         })
     }
 
+    // const getAllEvents = () => {
+    //     api.get('events')
+    //     .then(function(response) {
+    //          setEvents({
+    //             loading: false,
+    //             data: response.data
+    //         })
+    //         console.log(response.data)
+    //     })
+    //     .catch(function(error) {
+    //         console.log(error.message)
+    //     })
+    // }
+
     useEffect(() => {
         getAllCalendars()
+        //getAllEvents()
     }, [])
 
     const sortEventsAsc = () => {
@@ -114,8 +155,8 @@ export const CalendarList =  () => {
                     </div>
                     <div className={styles.eventScroll}>
                     {
-                        isAuth ?
-                        events.map((item) => (
+                        isAuth ? (
+                        events.loading ? <h2>Loading events...</h2> : events.data.map((item) => (
                             <div key={item.id} className={styles.eventItem} onClick={() => { modalInfoEvent.handleData(item); modalInfoEvent.handleOpen() }} style={new Date(Date.now()) > new Date(item.start) ? {opacity: 0.3} : {opacity: 1}}>
                                 <div className={styles.eventTitle}>
                                     <div style={{background: item.color}} className={styles.eventColor}></div>
@@ -158,7 +199,8 @@ export const CalendarList =  () => {
                                     }
                                 </div>
                             </div>
-                        )) : <div className={styles.logInContinue}>Log in to continue...</div>
+                        ))
+                        ) : <div className={styles.logInContinue}>Log in to continue...</div>
                     }
                     </div>
                 </div>
