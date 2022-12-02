@@ -8,7 +8,7 @@ module.exports = function (server, opts, done) {
     
     
     server.post('/api/events/calendar=:calendarId', controller.set);
-    server.post('/api/events/event=:eventId/invite/user=:userId', controller.invite);
+    server.post('/api/events/event=:eventId/invite/user=:login', controller.invite);
     server.get('/api/events/acceptInvitation/:token', controller.inviteConfirmer);
 
     server.patch('/api/events/event=:eventId', controller.edit);

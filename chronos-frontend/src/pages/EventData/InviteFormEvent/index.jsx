@@ -30,19 +30,19 @@ export const InviteFormEvent = (props) => {
 
     const onSubmit = (values) => {
 
-    //   api.post(`events/event=${props.id}/invite/user=${values.userLogin}`)
-    //     .then(response => {
-    //         setUserFound({
-    //             loading: false,
-    //             found: true,
-    //         })
-    //     })
-    //     .catch(error => {
-    //         setUserFound({
-    //             loading: false,
-    //             found: false,
-    //         })
-    //     })
+      api.post(`events/event=${props.id}/invite/user=${values.userLogin}`)
+        .then(response => {
+            setUserFound({
+                loading: false,
+                found: true,
+            })
+        })
+        .catch(error => {
+            setUserFound({
+                loading: false,
+                found: false,
+            })
+        })
 
 
         console.log(values.userLogin)
