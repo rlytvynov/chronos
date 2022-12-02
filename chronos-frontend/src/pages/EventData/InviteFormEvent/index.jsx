@@ -1,12 +1,12 @@
 import React, { useState } from "react"
 import { useForm } from 'react-hook-form';
-import styles from "./InviteForm.module.scss"
+import styles from "./InviteFormEvent.module.scss"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCheck, faUserXmark, faXmark } from '@fortawesome/free-solid-svg-icons';
-import api from "../../api/api";
+import api from "../../../api/api";
 import { useParams } from "react-router-dom";
 
-export const InviteForm = (props) => {
+export const InviteFormEvent = (props) => {
     const {
         register,
         handleSubmit,
@@ -17,7 +17,7 @@ export const InviteForm = (props) => {
         loading: true,
         found: false
     })
-    //const success = true;
+    const success = false
 
     const handleCloseSettings = (values) => {
         setUserFound({
@@ -30,35 +30,34 @@ export const InviteForm = (props) => {
 
     const onSubmit = (values) => {
 
-      api.post(`calendars/${params.id}/invite/${values.userLogin}`)
-        .then(response => {
-            setUserFound({
-                loading: false,
-                found: true,
-            })
-        })
-        .catch(error => {
-            setUserFound({
-                loading: false,
-                found: false,
-            })
-        })
+    //   api.post(`events/event=${props.id}/invite/user=${values.userLogin}`)
+    //     .then(response => {
+    //         setUserFound({
+    //             loading: false,
+    //             found: true,
+    //         })
+    //     })
+    //     .catch(error => {
+    //         setUserFound({
+    //             loading: false,
+    //             found: false,
+    //         })
+    //     })
 
-        
-        // console.log(values.userLogin)
-        // console.log(params.id)
-        // if(success) {
-        //     setUserFound({
-        //         loading: false,
-        //         found: true
-        //     })
-        // } else {
-        //     setUserFound({
-        //         loading: false,
-        //         found: false
-        //     })
-        // }
-        console.log(values)
+
+        console.log(values.userLogin)
+        console.log(props.id)
+        if(success) {
+            setUserFound({
+                loading: false,
+                found: true
+            })
+        } else {
+            setUserFound({
+                loading: false,
+                found: false
+            })
+        }
         reset()
     }
 

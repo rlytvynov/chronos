@@ -2,9 +2,10 @@ import React, { useEffect, useState }  from "react";
 import { useForm } from 'react-hook-form';
 import styles from "./EventData.module.scss"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faUserPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 import api from "../../api/api";
-
+import { useOpenModal } from "../../utils/stateEventCreationForm";
+import { InviteFormEvent } from "./InviteFormEvent";
 
 export const EventData = (props) => {
 
@@ -15,6 +16,7 @@ export const EventData = (props) => {
 
 // eslint-disable-next-line
     const [event, setEvent] = useState({loading: true})
+    const modalInviteEventForm = useOpenModal(false)
 
     const getEvent = (eventID) => {
         api.get(`events/event=${eventID}`)
@@ -36,7 +38,7 @@ export const EventData = (props) => {
     }, [props.id])
 
 
-    const handleSubmit = () => {
+    const handleDelete = () => {
         api.delete(`events/event=${props.id}`)
             .then(response => {
                 alert(response.data.message)
@@ -46,6 +48,10 @@ export const EventData = (props) => {
             })
         reset()
         props.handleClose()
+    }
+
+    const handleInvite = () =>  {
+        modalInviteEventForm.handleOpen() 
     }
 
     const handleCloseSettings = (values) => {
@@ -58,7 +64,7 @@ export const EventData = (props) => {
             {
                 event.loading ? 
                 <h2>Loading...</h2> : 
-                <form className={styles.eventFormCenter} onSubmit={handleSubmit}>
+                <div className={styles.eventFormCenter}>
                     <div className={styles.crossButton} onClick={handleCloseSettings}><FontAwesomeIcon icon={faXmark}/></div>
                     <div className={styles.titleBlock}>
                         <div className={styles.title}>
@@ -68,8 +74,16 @@ export const EventData = (props) => {
                         <div style={{backgroundColor: event.data.color}} className={styles.color}></div>
                     </div>
                     <div className={styles.description}>{event.data.description}</div>
-                    <div><input type="submit" value="Delete" /></div>
-                </form>
+                    <div className={styles.buttons}>
+                        <button id={styles.delete} onClick={handleDelete}>Delete</button>
+                        <button id={styles.invite} onClick={handleInvite}>Invite member <FontAwesomeIcon icon={faUserPlus}/></button>
+                    </div>
+                    <InviteFormEvent
+                        open={modalInviteEventForm.isOpen}
+                        handleClose={modalInviteEventForm.handleClose}
+                        id={event.data.id}
+                    />
+                </div>
             }
         </div>
     )

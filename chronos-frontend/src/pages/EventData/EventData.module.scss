@@ -80,19 +80,41 @@
             margin-bottom: 10px;
         }
 
-        input {
-            width: 100%;
-            padding: 10px 15px;
-            font-weight: 700;
-            color: white;
-            cursor: pointer;
-            background-color: rgb(255, 33, 77);
-            border: 1px solid rgb(255, 33, 77);
-            border-radius: 10px;
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
 
-            &:hover {
-                background-color: rgb(159, 15, 44);
-                border: 1px solid rgb(159, 15, 44);
+            #delete {
+                width: 40%;
+                padding: 10px 15px;
+                font-weight: 700;
+                color: white;
+                cursor: pointer;
+                background-color: rgb(255, 33, 77);
+                border: 1px solid rgb(255, 33, 77);
+                border-radius: 10px;
+    
+                &:hover {
+                    background-color: rgb(159, 15, 44);
+                    border: 1px solid rgb(159, 15, 44);
+                }
+            }
+
+            #invite {
+                width: 40%;
+                padding: 10px 15px;
+                font-weight: 700;
+                color: white;
+                cursor: pointer;
+                background-color: black;
+                border: 1px solid black;
+                border-radius: 10px;
+    
+                &:hover {
+                    background-color: white;
+                    color: black;
+                }
             }
         }
     }

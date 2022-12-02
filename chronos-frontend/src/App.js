@@ -7,7 +7,7 @@ import { Register } from "./components/Registration";
 
 import { Activation } from "./pages/Activation";
 import { AcceptCalendarInvetation } from "./pages/AcceptCalendarInvetation";
-//import { AcceptEventInvetation } from "./components/AcceptCalendarInvetation";
+import { AcceptEventInvetation } from "./pages/AcceptEventInvetation";
 
 
 import { CalendarList} from "./components/CalendarList"
@@ -48,6 +48,8 @@ function App() {
                 <Route exact path='/calendars' element={ <CalendarList/> } />
                 <Route exact path='/calendars/:id' element={ <CalendarItem/> } />
                 <Route exact path='/calendars/acceptInvitation/:token' element={ <AcceptCalendarInvetation/> } />
+                <Route exact path='/events/acceptInvitation/:token' element={ <AcceptEventInvetation/> } />
+
             </Routes>
             {/* <Footer/> */}
         </Router>
