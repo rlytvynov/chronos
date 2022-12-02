@@ -9,13 +9,13 @@ module.exports = class Event extends Entity{
         return await super.getOne({id: eventId});
     }
 
-    async getAll(events_calendars, calendarId, borderLeft, borderRight) {
+    async getByCalendar(events_calendars, calendarId, borderLeft, borderRight) {
         const searchObj = {}
         if (borderLeft) // we want to get events that were ongoing on the left border
             searchObj.end = {[this.Op.gte]: borderLeft};
         if (borderRight) // we want to get events that started before right border
             searchObj.start = {[this.Op.lte]: borderRight};
-        console.log(searchObj);
+
         return await this.sequelModel.findAll({
             where: searchObj,
             raw: true,
@@ -29,12 +29,9 @@ module.exports = class Event extends Entity{
         })
     }
 
-    async getUser(eventId, userId, events_calendars, calendars, users_calendars) {
-        // search if user belongs to any calendar containing needed event
-        // or
-        // search if event exists in any of calendars viewed by user
+    async getUser(userId, events_calendars, calendars, users_calendars) {
         return await this.sequelModel.findAll({
-            where: {id: eventId},
+            where: searchObj,
             raw: true,
             include:[{
                 model: events_calendars,
@@ -53,6 +50,38 @@ module.exports = class Event extends Entity{
                 }]
             }]
         })
+    };
+
+    async getAll(userId, events_calendars, calendars, users_calendars, borderLeft, borderRight) {
+        const searchObj = {}
+        if (borderLeft) // we want to get events that were ongoing on the left border
+            searchObj.end = {[this.Op.gte]: borderLeft};
+        if (borderRight) // we want to get events that started before right border
+            searchObj.start = {[this.Op.lte]: borderRight};
+        
+        return await this.sequelModel.findAll({
+            where: searchObj,
+            raw: true,
+            include:[{
+                model: events_calendars,
+                as: 'events_calendars',
+                raw: true,
+                required: true,
+                include:[{
+                    model: calendars,
+                    as: 'calendar',
+                    raw: true,
+                    required: true,
+                    include:[{
+                        model: users_calendars,
+                        as: 'users_calendars',
+                        where: {userId: userId},
+                        raw: true,
+                        required: true
+                    }]
+                }]
+            }]
+        });
     };
 
     async getLike(attribute, value, userId, events_calendars, calendars, users_calendars) {

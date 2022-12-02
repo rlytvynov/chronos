@@ -2,8 +2,9 @@ const controller = require('./controllers/controllEvent.js');
 
 module.exports = function (server, opts, done) {
     server.get('/api/events/event=:eventId', controller.getOne);
-    server.get('/api/events/calendar=:calendarId', controller.getAll);
-    server.get('/api/events/calendar=:calendarId/start=:leftBorder-end=:rightBorder', controller.getAll);
+    server.get('/api/events/calendar=:calendarId', controller.getCalendar);
+    server.get('/api/events/calendar=:calendarId/start=:leftBorder-end=:rightBorder', controller.getCalendar);
+    server.get('/api/events/start=:leftBorder-end=:rightBorder', controller.getAll);
     server.get('/api/events/find/:findStr', controller.search);
     
     server.post('/api/events/calendar=:calendarId', controller.set);

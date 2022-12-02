@@ -26,6 +26,40 @@ module.exports = {
 
     getAll : async (request, reply) => {
         try {
+            idChecker(request.user.id, 1006);
+            insertionProtector({leftBorder: request.params.leftBorder});
+            insertionProtector({rightBorder: request.params.rightBorder});
+            console.log(request.params);
+            const eventModel = new Event(request.db.sequelize.models.events);
+            const events = await eventModel.getAll(
+                request.user.id,
+                request.db.sequelize.models.events_calendars,
+                request.db.sequelize.models.calendars,
+                request.db.sequelize.models.users_calendars,
+                request.params.leftBorder,
+                request.params.rightBorder
+            );
+            
+            const replyArr = [];
+            events.forEach(event => {
+                replyArr.push({
+                    id: event['id'], 
+                    title: event['title'],
+                    description: event['description'],
+                    calendarId: event['events_calendars.calendarId'],
+                    type: event['type'],
+                    color: event['color'],
+                    start: event['start']
+                });
+            });
+            reply.status(200).send(replyArr);
+        } catch (error) {
+            errorReplier(error, reply);
+        }
+    },
+
+    getCalendar : async (request, reply) => {
+        try {
             idChecker(request.params.calendarId, 1023);
             idChecker(request.user.id, 1006);
             insertionProtector({leftBorder: request.params.leftBorder});
@@ -40,7 +74,7 @@ module.exports = {
             if(!calendar) throw new CustomError(1017);
 
             const eventModel = new Event(request.db.sequelize.models.events);
-            const events = await eventModel.getAll(
+            const events = await eventModel.getByCalendar(
                 request.db.sequelize.models.events_calendars,
                 request.params.calendarId,
                 request.params.leftBorder,
