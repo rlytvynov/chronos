@@ -16,33 +16,6 @@ import api from "../../api/api";
 export const CalendarList =  () => {
     const isAuth = useSelector(selectIsAuth)
 
-    // const [events, setEvents] = useState([
-    //     {
-    //         id: 1,
-    //         title: 'Jopa',
-    //         color: 'red',
-    //         start: '2023-12-28T10:30:00'
-    //     },
-    //     {
-    //         id: 2,
-    //         title: 'Bla Bla',
-    //         color: 'yellow',
-    //         start: '2022-11-28T10:30:00'
-    //     },
-    //     {
-    //         id: 3,
-    //         title: 'Hui',
-    //         color: 'blue',
-    //         start: '2022-11-21T10:30:00'
-    //     },
-    //     {
-    //         id: 4,
-    //         title: 'Kavun',
-    //         color: 'red',
-    //         start: '2022-11-21T11:25:00'
-    //     },
-    // ])
-
     // eslint-disable-next-line
     const [calendars , setCalendars] = useState({loading: true})
     const [events, setEvents] = useState({loading: false, data: [
