@@ -37,6 +37,7 @@ module.exports = {
             if (!login || !password || !email || !fullName)
                 throw new CustomError(-999); // -999 po prichine idi nahui
             insertionProtector(request.body);
+
             if (login.length < 4 || password.length < 6 || fullName.length < 3)
                 throw new CustomError(1022);
             password = hashPassword(password);
@@ -47,6 +48,7 @@ module.exports = {
                     throw new CustomError(1004);
                 throw new CustomError(1005);
             }
+
             const calendarModel = new Calendar(request.db.sequelize.models.calendars);
             const calendar = await calendarModel.set({title: `Default calendar`, 
             description: `${pawn.login} default calendar`});
@@ -67,7 +69,6 @@ module.exports = {
     },
     
     logouter : async (request, reply) => {
-        console.log(request.cookies)
         if(!request.cookies.refreshToken) reply.status(401).send();
         else reply.status(200).clearCookie('refreshToken', {path: '/'});
     },

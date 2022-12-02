@@ -16,16 +16,10 @@ module.exports = class Entity{
         });
     };
 
-    async getOneLike(attribute, likeStr, excludeAttrs = []) {
-        return await this.sequelModel.findOne({
+    async getAll(searchObj, excludeAttrs = []) {
+        return await this.sequelModel.findAll({
             attributes: {exclude: excludeAttrs},
-            where: {
-                [attribute]: {
-                    [Op.like]: likeStr
-                    // format: %string to find%
-                    // i wonder if it will find the string which starts with or is likeStr itself
-                }
-            }
+            where: searchObj
         });
     };
 

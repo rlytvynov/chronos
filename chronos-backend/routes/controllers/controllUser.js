@@ -145,5 +145,21 @@ module.exports = {
         } catch (error) {
             errorReplier(error, reply);
         }
+    },
+
+    search : async(request, reply) => {
+        try {
+            if (!request.user || !request.user.login)
+                throw new CustomError(1006);
+            if (!request.params.findLoginStr) throw new CustomError(1023);
+            insertionProtector(request.params.findLoginStr);
+
+            const user = new User(request.db.sequelize.models.users);
+            const pawns = await user.getLike('login', request.params.findLoginStr);
+
+            reply.status(200).send(pawns);
+        } catch (error) {
+            errorReplier(error, reply);
+        }
     }
 }

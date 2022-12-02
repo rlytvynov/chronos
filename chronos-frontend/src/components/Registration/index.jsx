@@ -17,6 +17,7 @@ export const Register = () => {
 
     const onSubmit = async (values) => {
         const data = await dispatch(fetchRegister(values))
+        console.log(values);
         if (!data.payload) {
             return alert('Unable to authorize')
         } else {

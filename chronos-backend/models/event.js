@@ -53,6 +53,34 @@ module.exports = class Event extends Entity{
                 }]
             }]
         })
+    };
+
+    async getLike(attribute, value, userId, events_calendars, calendars, users_calendars) {
+        return await this.sequelModel.findAll({
+            where: {[attribute]: {
+                [this.Op.like]: '%' + value + '%'
+            }},
+            raw: true,
+            include:[{
+                model: events_calendars,
+                as: 'events_calendars',
+                raw: true,
+                required: true,
+                include:[{
+                    model: calendars,
+                    as: 'calendar',
+                    raw: true,
+                    required: true,
+                    include:[{
+                        model: users_calendars,
+                        as: 'users_calendars',
+                        where: {userId: userId},
+                        raw: true,
+                        required: true
+                    }]
+                }]
+            }]
+        });
     }
 
     async set(data, id) {

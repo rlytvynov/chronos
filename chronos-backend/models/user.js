@@ -20,6 +20,15 @@ module.exports = class User extends Entity{
         return await super.getOne(searchObj, exclude);
     }
 
+    async getLike(attribute, value) {
+        const searchObj = {
+        [attribute]: {
+            [this.Op.like]: '%' + value + '%'
+        }};
+
+        return await super.getAll(searchObj, UserExcludeArr)
+    }
+
     async create(login, password, email, fullName) {
         const [pawn, created] = await this.sequelModel.findOrCreate({
             where: {
@@ -37,6 +46,7 @@ module.exports = class User extends Entity{
                 password: password
             }
         });
+
         return [pawn, created];
     };
 

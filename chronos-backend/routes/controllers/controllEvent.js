@@ -52,6 +52,52 @@ module.exports = {
         }
     },
 
+    search : async(request, reply) => {
+        try {
+            if (!request.user || !request.user.login)
+                throw new CustomError(1006);
+            if (!request.params.findStr) throw new CustomError(1023);
+            insertionProtector(request.params.findStr);
+
+            const eventModel = new Event(request.db.sequelize.models.events);
+            const eventsByTitles = await eventModel.getLike(
+                'title', 
+                request.params.findStr,
+                request.user.id,
+                request.db.sequelize.models.events_calendars,
+                request.db.sequelize.models.calendars,
+                request.db.sequelize.models.users_calendars
+            );
+            const eventsByDescriptions = await eventModel.getLike(
+                'description', 
+                request.params.findStr,
+                request.user.id,
+                request.db.sequelize.models.events_calendars,
+                request.db.sequelize.models.calendars,
+                request.db.sequelize.models.users_calendars
+            );
+
+            const replyArr = [];
+            function arrayLooper(toLoop, toAnswer) {
+                toLoop.forEach(event => {
+                    toAnswer.push({
+                        id: event['id'], 
+                        title: event['title'],
+                        description: event['description'],
+                        calendarId: event['events_calendars.calendarId']
+                    });
+                });
+            };
+
+            arrayLooper(eventsByTitles, replyArr);
+            arrayLooper(eventsByDescriptions, replyArr);  
+
+            reply.status(200).send(replyArr);
+        } catch (error) {
+            errorReplier(error, reply);
+        }
+    },
+
     set : async (request, reply) => {
         try {
             idChecker(request.params.calendarId, 1023);
