@@ -112,10 +112,11 @@ module.exports = {
         try {
             idChecker(request.params.eventId, 1023);
             idChecker(request.user.id, 1006);
-            idChecker(request.params.userId, 1006);
+            if(!request.params.login) throw new CustomError(1023);
+            insertionProtector({invitedLogin: request.params.login});
 
             const user = new User(request.db.sequelize.models.users);
-            const pawnInvited = await user.get({id: request.params.userId}, true);
+            const pawnInvited = await user.get({login: request.params.login}, true);
             if (!pawnInvited) throw new CustomError(1014);
 
             const eventModel = new Event(request.db.sequelize.models.events);
@@ -127,7 +128,7 @@ module.exports = {
 
             const [event_user] = await eventModel.getUser(
                 request.params.eventId,
-                request.params.userId,
+                pawnInvited.id,
                 request.db.sequelize.models.events_calendars,
                 request.db.sequelize.models.calendars,
                 request.db.sequelize.models.users_calendars
