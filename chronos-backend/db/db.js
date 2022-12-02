@@ -33,7 +33,7 @@ module.exports = class DataBase {
         events.hasMany(events_calendars, { as: "events_calendars", foreignKey: "eventId"});
         events.belongsTo(users, { as: "admin", foreignKey: "adminId"});
         users.hasMany(events, { as: "events", foreignKey: "adminId"});
-        users_calendars.belongsTo(users, { as: "user", foreignKey: "userId"});
+        users_calendars.belongsTo(users, { as: "user", foreignKey: "userId", onDelete:'CASCADE'});
         users.hasMany(users_calendars, { as: "users_calendars", foreignKey: "userId"});
 
         this.__syncModels();
