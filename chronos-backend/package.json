@@ -22,6 +22,7 @@
     "crypto": "^1.0.1",
     "fastify": "^4.9.2",
     "mysql2": "^2.3.3",
+    "node-fetch": "^2.6.7",
     "nodemailer": "^6.8.0",
     "path": "^0.12.7",
     "sequelize": "^6.25.5",

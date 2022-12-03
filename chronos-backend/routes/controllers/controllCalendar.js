@@ -1,12 +1,14 @@
-const User = require('../../models/user.js'),
+const fetch = require('node-fetch'),
+      User = require('../../models/user.js'),
       Mailer = require('../../utils/mailer.js'),
       Calendar = require('../../models/calendar.js'),
       idChecker = require('../../utils/idChecker.js'),
       CustomError = require('../../models/errors.js'),
       errorReplier = require('../../utils/errorReplier.js'),
       Users_Calendars = require('../../models/users_calendars.js'),
-      insertionProtector = require('../../utils/insertionProtector.js');
-
+      insertionProtector = require('../../utils/insertionProtector.js')
+      regionConverter = require('../../utils/iso3166_2_letter_codes.js');
+//
 
 module.exports = {
     getOne : async (request, reply) => {
@@ -55,6 +57,57 @@ module.exports = {
             );
 
             reply.status(200).send(paginate(calendars, 4, queryData.page ? Number(queryData.page) : 1));
+        } catch (error) {
+            errorReplier(error, reply);
+        }
+    },
+
+    getHoliday : async (request, reply) => {
+        try {
+            idChecker(request.user.id, 1006);
+            insertionProtector({date: request.params.date});
+            if (!request.params.date)
+                throw new CustomError(1023);
+
+            const date = new Date(Number.parseInt(request.params.date));
+            const CALENDAR_REGION = regionConverter[request.user.location.toLowerCase()];
+
+            if (!CALENDAR_REGION) {
+                reply.status(400).send({message: "Location missing"});
+                return;
+            }
+
+            const BASE_CALENDAR_URL = "https://www.googleapis.com/calendar/v3/calendars";
+            const BASE_CALENDAR_ID_FOR_PUBLIC_HOLIDAY = "holiday@group.v.calendar.google.com"; 
+            const API_KEY = "AIzaSyB6X8bUdtRujQfdru8R5thJG84BvJ_LPpI";
+
+            date.setUTCHours(00, 00, 00);
+            const dateMin = date.toISOString();
+            date.setUTCHours(23, 59, 59);
+            const dateMax = date.toISOString();
+
+            // strings for testing
+            // const dateMinpre = new Date('2022-12-06T00:00:00.360Z');
+            // const dateMin = dateMinpre.toISOString();
+            // const dateMaxpre = new Date('2022-12-06T23:59:59.360Z');
+            // const dateMax = dateMaxpre.toISOString();
+
+            const url = `${BASE_CALENDAR_URL}/en.${CALENDAR_REGION}%23${BASE_CALENDAR_ID_FOR_PUBLIC_HOLIDAY}/events?key=${API_KEY}&timeMin=${dateMin}&timeMax=${dateMax}`;
+            console.log(url);
+
+            const response = await fetch(url);
+            const data = await response.json();
+
+            if (!data) throw new CustomError(-999);
+            let holidays = [];
+            data.items.forEach(event => {
+                holidays.push({
+                    title: event.summary.split('(Suspended)')[0],
+                    start: event.start.date
+                });
+            });
+
+            reply.status(200).send(holidays);
         } catch (error) {
             errorReplier(error, reply);
         }
