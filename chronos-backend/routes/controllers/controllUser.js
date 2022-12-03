@@ -147,6 +147,23 @@ module.exports = {
         }
     },
 
+    editLocation : async(request, reply) => {
+        try {
+            idChecker(request.user.id, 1006);
+            if (!request.body.latitude || !request.body.longitude)
+                throw new CustomError(1025);
+            const GEONAMES_LOGIN = 'deds_dev_xyecoc_int';
+            const url = `http://api.geonames.org/countryCodeJSON?lat=${request.body.latitude}&lng=${request.body.longitude}&username=${GEONAMES_LOGIN}`;
+            const geonamesResponse = await (await fetch(url)).json();
+            const user = new User(request.db.sequelize.models.users);
+            await user.edit({location: geonamesResponse.countryCode}, {id: request.user.id});
+
+            reply.status(200).send({message: "Success"});
+        } catch (error) {
+            errorReplier(error, reply);
+        }
+    },
+
     search : async(request, reply) => {
         try {
             if (!request.user || !request.user.login)

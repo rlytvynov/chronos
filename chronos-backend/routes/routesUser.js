@@ -6,6 +6,8 @@ module.exports = function (server, opts, done) {
     server.get('/api/users/login/:login', controller.get);
     server.get('/api/users/find/:findLoginStr', controller.search);
     server.get('/api/users/avatar/:avatarName', controller.getAvatar);
+
+    server.patch('/api/users/location', controller.editLocation);
     server.patch('/api/users/avatar', controller.editAvatar);
     server.patch('/api/users', controller.edit);
     
