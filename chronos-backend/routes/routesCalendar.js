@@ -4,7 +4,6 @@ module.exports = function (server, opts, done) {
     server.get('/api/calendars/:calendarId', controller.getOne);
     server.get('/api/calendars', controller.getAllRaw);
     server.get('/api/calendars-events', controller.getAll);
-    server.get('/api/calendars-holidays/:date', controller.getHoliday);
 
     server.post('/api/calendars', controller.set);
 
