@@ -178,7 +178,6 @@ module.exports = {
     "re": "re",
     "ro": "romanian",
     "rs": "rs",
-    "ru": "russian",
     "rw": "rw",
     "sa": "saudiarabian",
     "sb": "sb",
