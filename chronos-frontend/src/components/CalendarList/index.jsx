@@ -9,41 +9,25 @@ import { useOpenModal } from "../../utils/stateEventCreationForm";
 import { CalendarForm } from "../../pages/CalendarForm";
 import { EventData } from "../../pages/EventData";
 import { useSelector } from 'react-redux'
-import { selectIsAuth } from "../../utils/redux/slices/auth";
+import { selectIsAuth, selectAuthUser } from "../../utils/redux/slices/auth";
 import api from "../../api/api";
 
 
 export const CalendarList =  () => {
     const isAuth = useSelector(selectIsAuth)
+    const userData = useSelector(selectAuthUser)
 
     // eslint-disable-next-line
     const [calendars , setCalendars] = useState({loading: true})
-    const [events, setEvents] = useState({loading: false, data: [
+    const [nationalHolidays , setNationalHolidays] = useState({loading: false, data:[
         {
-            id: 1,
-            title: 'Jopa',
-            color: 'red',
-            start: '2023-12-28T10:30:00'
+            title: 'Jopa'
         },
         {
-            id: 2,
-            title: 'Bla Bla',
-            color: 'yellow',
-            start: '2022-11-28T10:30:00'
-        },
-        {
-            id: 3,
-            title: 'Hui',
-            color: 'blue',
-            start: '2022-11-21T10:30:00'
-        },
-        {
-            id: 4,
-            title: 'Kavun',
-            color: 'red',
-            start: '2022-11-21T11:25:00'
-        },
+            title: 'Hui'
+        }
     ]})
+    const [events, setEvents] = useState({loading: false, data: []})
 
     const getAllCalendars = () => {
         api.get('calendars-events')
@@ -59,33 +43,60 @@ export const CalendarList =  () => {
         })
     }
 
-    // const getAllEvents = () => {
-    //     api.get('events')
-    //     .then(function(response) {
-    //          setEvents({
-    //             loading: false,
-    //             data: response.data
-    //         })
-    //         console.log(response.data)
-    //     })
-    //     .catch(function(error) {
-    //         console.log(error.message)
-    //     })
-    // }
+    const getGeolocation = () => {
+        navigator.geolocation.getCurrentPosition(async (position) => {
+          console.log("Latitude is :", position.coords.latitude);
+          console.log("Longitude is :", position.coords.longitude);
+        //   await api.patch(`users/location/${userData.id}`, {
+        //     latitude: position.coords.latitude,
+        //     longitude: position.coords.longitude,
+        //   });
+        });
+    };
+
+     const getAllEvents = () => {
+        const dateStart = new Date(new Date().getFullYear(), 0, 1).toISOString();
+        const dateEnd = new Date(new Date().getFullYear()+1, 0, 0).toISOString();
+        // console.log(dateStart.getTime())
+        api.get(`events/start=${dateStart}-end=${dateEnd}`)
+        .then(function(response) {
+             setEvents({
+                loading: false,
+                data: response.data
+            })
+            console.log(response.data)
+        })
+        .catch(function(error) {
+            console.log(error.message)
+        })
+    }
 
     useEffect(() => {
         getAllCalendars()
-        //getAllEvents()
-    }, [])
+        if(userData && !userData.location) {
+            getGeolocation()
+        } else if(userData && userData.location) {
+            api.get(`events-holidays/${new Date().getTime()}`)
+                .then(response => {
+                    setNationalHolidays({
+                        loading: false,
+                        data: response.data
+                    })
+                })
+        } else {
+            //setNationalHolidays({loading: true, data: []})
+        }
+        getAllEvents()
+    }, [userData])
 
     const sortEventsAsc = () => {
-        let arr = [...events]
-        setEvents(arr.sort((a,b) => new Date (a.start) - new Date (b.start)))
+        let arr = [...events.data]
+        setEvents({loading: false, data: arr.sort((a,b) => new Date (a.start) - new Date (b.start))})
     }
 
     const sortEventsDesc= () => {
-        let arr = [...events]
-        setEvents(arr.sort((a,b) => new Date (b.start) - new Date (a.start)))
+        let arr = [...events.data]
+        setEvents({loading: false, data: arr.sort((a,b) => new Date (b.start) - new Date (a.start))})
     }
 
     const modalInfoCalendar = useOpenModal(false)
@@ -175,6 +186,21 @@ export const CalendarList =  () => {
                         ))
                         ) : <div className={styles.logInContinue}>Log in to continue...</div>
                     }
+                    </div>
+                    <div className={styles.nationalEvents}>
+                        <h3>National Events</h3>
+                        <div className={styles.eventScroll}>
+                            {
+                                isAuth ? (
+                                    nationalHolidays.loading ? <h2>Loading holidays...</h2> : 
+                                    
+                                    (userData.location ? nationalHolidays.data.map((item) => (
+                                        <li key={item.title}>{item.title}</li>
+                                    )) : <div>Sorry, allow to use your location to see national holidays, or set your country manualy in the settnigs of profile</div>)
+
+                                ) : <div className={styles.logInContinue}>Log in to continue...</div>
+                            }
+                        </div>
                     </div>
                 </div>
                 <div className={styles.allCalendars}>
