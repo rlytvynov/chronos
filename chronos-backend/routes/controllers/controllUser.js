@@ -81,8 +81,8 @@ module.exports = {
         try {
             idChecker(request.user.id, 1006);
 
-            const {login, email, password, fullName} = request.body;
-            insertionProtector({email: email, login: login});
+            const {login, email, password, fullName, location} = request.body;
+            insertionProtector({email: email, login: login, location: location});
 
             const user = new User(request.db.sequelize.models.users);
             const pawn = await user.get({id: request.user.id}, true);
@@ -95,7 +95,7 @@ module.exports = {
                     throw new CustomError(1004);
             }
 
-            await user.edit({login, fullName}, {id: request.user.id});
+            await user.edit({login, fullName, location}, {id: request.user.id});
 
             if (email) {
                 if (pawn.dataValues.email === email) throw new CustomError(1008);
@@ -135,7 +135,7 @@ module.exports = {
             await user.edit({profilePic: avatarName}, {login: request.user.login});
 
             if (previousPawn.profilePic !== 'none.png') {
-                Fs.unlink('./profilePics/' + previousPawn.profilePic, (error) => {
+                Fs.unlink('./public/profilePics/' + previousPawn.profilePic, (error) => {
                     if (error) console.log(error);
                 });
             }
@@ -153,10 +153,11 @@ module.exports = {
             if (!request.body.latitude || !request.body.longitude)
                 throw new CustomError(1025);
             const GEONAMES_LOGIN = 'deds_dev_xyecoc_int';
+            console.log(request.body.latitude); console.log(request.body.longitude)
             const url = `http://api.geonames.org/countryCodeJSON?lat=${request.body.latitude}&lng=${request.body.longitude}&username=${GEONAMES_LOGIN}`;
             const geonamesResponse = await (await fetch(url)).json();
             const user = new User(request.db.sequelize.models.users);
-            await user.edit({location: geonamesResponse.countryCode}, {id: request.user.id});
+            await user.edit({location: geonamesResponse.countryCode.toLowerCase()}, {id: request.user.id});
 
             reply.status(200).send({message: "Success"});
         } catch (error) {
@@ -166,7 +167,7 @@ module.exports = {
 
     search : async(request, reply) => {
         try {
-            if (!request.user || !request.user.login)
+            if (!request.user || !request.user.id)
                 throw new CustomError(1006);
             if (!request.params.findLoginStr) throw new CustomError(1023);
             insertionProtector(request.params.findLoginStr);

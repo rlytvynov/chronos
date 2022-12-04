@@ -49,10 +49,10 @@ export const CalendarList =  () => {
         navigator.geolocation.getCurrentPosition(async (position) => {
           console.log("Latitude is :", position.coords.latitude);
           console.log("Longitude is :", position.coords.longitude);
-        //   await api.patch(`users/location/${userData.id}`, {
-        //     latitude: position.coords.latitude,
-        //     longitude: position.coords.longitude,
-        //   });
+          await api.patch(`users/location`, {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
         });
     };
 
@@ -86,7 +86,7 @@ export const CalendarList =  () => {
                     })
                 })
         } else {
-            //setNationalHolidays({loading: true, data: []})
+            setNationalHolidays({loading: true, data: []})
         }
         getAllEvents()
     }, [userData])

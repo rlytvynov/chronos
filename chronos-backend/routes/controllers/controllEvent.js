@@ -88,8 +88,7 @@ module.exports = {
 
     search : async(request, reply) => {
         try {
-            if (!request.user || !request.user.login)
-                throw new CustomError(1006);
+            idChecker(request.user.id, 1006);
             if (!request.params.findStr) throw new CustomError(1023);
             insertionProtector(request.params.findStr);
 
@@ -139,8 +138,11 @@ module.exports = {
             if (!request.params.date)
                 throw new CustomError(1023);
 
+            const user = new User(request.db.sequelize.models.users);
+            const pawn = await user.get({id: request.user.id}, true);
+
             const date = new Date(Number.parseInt(request.params.date));
-            const CALENDAR_REGION = regionConverter[request.user.location.toLowerCase()];
+            const CALENDAR_REGION = regionConverter[pawn.location.toLowerCase()];
 
             if (!CALENDAR_REGION) {
                 reply.status(400).send({message: "Location missing"});
@@ -157,6 +159,7 @@ module.exports = {
             const dateMax = date.toISOString();
 
             // strings for testing
+            // Army day
             // const dateMinpre = new Date('2022-12-06T00:00:00.360Z');
             // const dateMin = dateMinpre.toISOString();
             // const dateMaxpre = new Date('2022-12-06T23:59:59.360Z');
