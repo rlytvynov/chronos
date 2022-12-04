@@ -29,23 +29,27 @@ module.exports = class Event extends Entity{
         })
     }
 
-    async getUser(userId, events_calendars, calendars, users_calendars) {
+    async getUserEvent(eventId, userId, events_calendars, calendars, users_calendars) {
         return await this.sequelModel.findAll({
-            where: searchObj,
+            where: {id: eventId},
             raw: true,
+            required: true,
             include:[{
                 model: events_calendars,
                 as: 'events_calendars',
                 raw: true,
+                required: true,
                 include:[{
                     model: calendars,
                     as: 'calendar',
                     raw: true,
+                    required: true,
                     include:[{
                         model: users_calendars,
                         as: 'users_calendars',
                         where: {userId: userId},
-                        raw: true
+                        raw: true,
+                        required: true
                     }]
                 }]
             }]

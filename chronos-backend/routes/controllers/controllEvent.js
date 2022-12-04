@@ -248,19 +248,19 @@ module.exports = {
             idChecker(request.user.id, 1006);
             if(!request.params.login) throw new CustomError(1023);
             insertionProtector({invitedLogin: request.params.login});
-
+            
             const user = new User(request.db.sequelize.models.users);
             const pawnInvited = await user.get({login: request.params.login}, true);
             if (!pawnInvited) throw new CustomError(1014);
-
+            
             const eventModel = new Event(request.db.sequelize.models.events);
             const event = await eventModel.get(request.params.eventId);
-
+            
             if(!event) throw new CustomError(1023);
             else if(event.adminId != request.user.id) 
                 throw new CustomError(1032);
-
-            const [event_user] = await eventModel.getUser(
+            
+            const [event_user] = await eventModel.getUserEvent(
                 request.params.eventId,
                 pawnInvited.id,
                 request.db.sequelize.models.events_calendars,
@@ -268,11 +268,10 @@ module.exports = {
                 request.db.sequelize.models.users_calendars
             );
 
-            if (event_user['events_calendars.calendarId'] 
-            == event_user['events_calendars.calendar.id'])
+            if (event_user)
                 throw new CustomError(1036);
             // ^^^ cannot add event if user has one ^^^
-            
+
             const mailer = new Mailer();
             mailer.sendInviteEvent(pawnInvited.email,
                 request.jwt.sign({
