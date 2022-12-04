@@ -72,6 +72,38 @@
                 }
             }
 
+            .nationalEvents{
+                width: 100%;
+                margin-top: 30px;
+                .nEvTitle {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 20px;
+
+                    h3 {
+                        margin: 0;
+                        font-family: 'Inter';
+                        font-style: normal;
+                        font-weight: 700;
+                        font-size: 24px;
+                        line-height: 29px;
+                        text-transform: uppercase;
+                        color: #393E46;
+                    }
+
+                    .today {
+                        text-align: center;
+                        background-color: #eaeaea;
+                        border-radius: 15px;
+                        color: black;
+
+                        padding: 5px 15px;
+                        font-size: 15px;
+                    }
+                }
+            }
+
             .eventScroll {
                 width: 100%;
                 overflow-y: scroll;

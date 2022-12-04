@@ -21,10 +21,12 @@ export const CalendarList =  () => {
     const [calendars , setCalendars] = useState({loading: true})
     const [nationalHolidays , setNationalHolidays] = useState({loading: false, data:[
         {
-            title: 'Jopa'
+            title: 'Jopa',
+            start: '2022-12-04'
         },
         {
-            title: 'Hui'
+            title: 'Hui',
+            start: '2022-12-04'
         }
     ]})
     const [events, setEvents] = useState({loading: false, data: []})
@@ -188,14 +190,23 @@ export const CalendarList =  () => {
                     }
                     </div>
                     <div className={styles.nationalEvents}>
-                        <h3>National Events</h3>
+                        <div className={styles.nEvTitle}>
+                            <h3>National Events</h3>
+                            <div className={styles.today}>today</div>
+                        </div>
                         <div className={styles.eventScroll}>
                             {
                                 isAuth ? (
                                     nationalHolidays.loading ? <h2>Loading holidays...</h2> : 
                                     
-                                    (userData.location ? nationalHolidays.data.map((item) => (
-                                        <li key={item.title}>{item.title}</li>
+                                    (true ? nationalHolidays.data.map((item) => (
+                                        <div key={item.title} className={styles.eventItem}>
+                                        <div className={styles.eventTitle}>
+                                            <div style={{background: 'lightgreen'}} className={styles.eventColor}></div>
+                                            <div className={styles.eventName}>{item.title}</div>
+                                        </div>
+                                        <div className={styles.eventTime}>{item.start}</div>
+                                    </div>
                                     )) : <div>Sorry, allow to use your location to see national holidays, or set your country manualy in the settnigs of profile</div>)
 
                                 ) : <div className={styles.logInContinue}>Log in to continue...</div>
