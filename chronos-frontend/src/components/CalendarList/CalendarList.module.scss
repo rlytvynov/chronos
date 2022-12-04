@@ -102,6 +102,11 @@
                         font-size: 15px;
                     }
                 }
+                .eventScroll {
+                    width: 100%;
+                    overflow-y: scroll;
+                    height: 100px;
+                }
             }
 
             .eventScroll {
@@ -152,6 +157,10 @@
                         .eventName {
                             padding: 10px 0px;
                             text-align: center;
+                            max-width: 200px;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
                         }
                     }
     
@@ -300,6 +309,10 @@
                                     .eventName {
                                         padding: 10px 0px;
                                         text-align: center;
+                                        max-width: 100px;
+                                        white-space: nowrap;
+                                        overflow: hidden;
+                                        text-overflow: ellipsis;
                                     }
                                 }
                 

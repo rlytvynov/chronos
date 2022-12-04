@@ -21,12 +21,20 @@ export const CalendarList =  () => {
     const [calendars , setCalendars] = useState({loading: true})
     const [nationalHolidays , setNationalHolidays] = useState({loading: false, data:[
         {
-            title: 'Jopa',
+            title: 'Jopa kfidkvofd vdfkmvodfv dfkvmodfv dfkmvdf',
             start: '2022-12-04'
         },
         {
-            title: 'Hui',
-            start: '2022-12-04'
+            title: 'Jopa',
+            start: '2022-12-05'
+        },
+        {
+            title: 'Jopa kfidkvofd vdfkmvodfv dfkvmodfv dfkmvdf',
+            start: '2022-12-06'
+        },
+        {
+            title: 'Jopa',
+            start: '2022-12-07'
         }
     ]})
     const [events, setEvents] = useState({loading: false, data: []})
@@ -200,7 +208,7 @@ export const CalendarList =  () => {
                                     nationalHolidays.loading ? <h2>Loading holidays...</h2> : 
                                     
                                     (true ? nationalHolidays.data.map((item) => (
-                                        <div key={item.title} className={styles.eventItem}>
+                                        <div key={String(item.title).concat(String(item.start))} className={styles.eventItem}>
                                         <div className={styles.eventTitle}>
                                             <div style={{background: 'lightgreen'}} className={styles.eventColor}></div>
                                             <div className={styles.eventName}>{item.title}</div>
@@ -303,6 +311,7 @@ export const CalendarList =  () => {
                 open={modalInfoEvent.isOpen}
                 handleClose={modalInfoEvent.handleClose}
                 id={modalInfoEvent.extraData.id}
+                calendarId={modalInfoEvent.extraData.calendarId}
             />
         </div>
     )

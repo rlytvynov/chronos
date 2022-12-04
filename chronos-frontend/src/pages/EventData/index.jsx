@@ -6,6 +6,7 @@ import { faUserPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 import api from "../../api/api";
 import { useOpenModal } from "../../utils/stateEventCreationForm";
 import { InviteFormEvent } from "./InviteFormEvent";
+import { Link } from "react-router-dom";
 
 export const EventData = (props) => {
 
@@ -13,7 +14,7 @@ export const EventData = (props) => {
         reset
     } = useForm();
 
-
+    console.log(props)
 // eslint-disable-next-line
     const [event, setEvent] = useState({loading: true})
     const modalInviteEventForm = useOpenModal(false)
@@ -71,6 +72,7 @@ export const EventData = (props) => {
                             <div>{event.data.title}</div>
                             <div className={styles.type}>{event.data.type}</div>
                         </div>
+                        {props.calendarId ? <Link to={`/calendars/${props.calendarId}`}>See calendar</Link> : null}
                         <div style={{backgroundColor: event.data.color}} className={styles.color}></div>
                     </div>
                     <div className={styles.description}>{event.data.description}</div>
